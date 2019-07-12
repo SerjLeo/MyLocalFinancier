@@ -1,0 +1,3 @@
+{
+    "mongoURI": "mongodb+srv://Client:ClientPass123@mylocfin-qrksm.mongodb.net/test?retryWrites=true&w=majority"
+}

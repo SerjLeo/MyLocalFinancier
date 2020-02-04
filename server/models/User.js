@@ -15,11 +15,15 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    isConfirmed: {
+        type: Boolean,
+        default: false
+    },
     avatar: {
         type: String
     },
     date: {
-        type: date,
+        type: Date,
         default: Date.now
     }
 })

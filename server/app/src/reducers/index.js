@@ -1,21 +1,12 @@
-const initialState = {
-    user: [],
-    userData: [],
-    loading: true,
-    error: false,
-    loggedIn: false
-}
+import {combineReducers} from 'redux';
+import alert from './alert';
+import auth from './auth';
+import profile from './profile';
+import finance from './finance';
 
-const reducer = (state=initialState, action) => {
-    switch (action.type) {
-        case 'LOGIN':
-            return {
-                ...state,
-                loggedIn: true
-            }
-        default:
-            return state
-    }
-}
-
-export default reducer;
+export default combineReducers({
+    alert,
+    auth,
+    profile,
+    finance
+});

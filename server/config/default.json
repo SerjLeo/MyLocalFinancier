@@ -1,3 +1,6 @@
 {
-    "mongoURI": "mongodb+srv://Client:ClientPass123@mylocfin-qrksm.mongodb.net/test?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://Client:ClientPass123@mylocfin-qrksm.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken",
+    "githubClientId":"37765c8c6fcd94627e94",
+    "githubSecret":"621beb96ba2fe9526e3e203f9f08faa84432be93"
 }

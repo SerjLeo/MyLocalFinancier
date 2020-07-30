@@ -13,16 +13,16 @@
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "config": "^3.2.5",
+    "config": "^3.3.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-validator": "^6.3.1",
-    "gravatar": "^1.8.0",
+    "express-validator": "^6.4.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.8.9",
-    "nodemailer": "^6.4.2",
-    "request": "^2.88.0"
+    "moment": "^2.24.0",
+    "mongoose": "^5.9.2",
+    "nodemailer": "^6.4.3",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "concurrently": "^4.1.2",

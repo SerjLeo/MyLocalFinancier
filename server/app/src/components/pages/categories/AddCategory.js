@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux';
 import {addCategory} from '../../../actions'
 import Form from '../../helpers/Form'
+import AddIcon from '@material-ui/icons/Add';
 //Material-UI
 import PopoverFabLayout from '../../layout/PopoverFabLayout';
 
@@ -28,44 +29,52 @@ const AddCategory = ({addCategory}) => {
             type: 'iconSelect',
             menuItems: [
                 {
-                    value: 'fas fa-map-marked-alt fa-lg',
-                    _id: 1
+                    value: 'pharmacy',
+                    _id: 'i_1'
                 },
                 {
-                    value: 'fas fa-pills fa-lg',
-                    _id: 2
+                    value: 'shopping-cart',
+                    _id: 'i_2'
                 },
                 {
-                    value: 'fas fa-shopping-cart fa-lg',
-                    _id: 3
+                    value: 'travel',
+                    _id: 'i_3'
                 },
                 {
-                    value: 'fas fa-file-invoice-dollar fa-lg',
-                    _id: 4
+                    value: 'bill',
+                    _id: 'i_4'
                 },
                 {
-                    value: 'fas fa-suitcase fa-lg',
-                    _id: 5
+                    value: 'suitcase',
+                    _id: 'i_5'
                 },
                 {
-                    value: 'fas fa-hand-holding-heart fa-lg',
-                    _id: 6
+                    value: 'paw',
+                    _id: 'i_6'
                 },
                 {
-                    value: 'fas fa-futbol fa-lg',
-                    _id: 7
+                    value: 'coffee',
+                    _id: 'i_7'
                 },
                 {
-                    value: 'fas fa-cogs fa-lg',
-                    _id: 8
+                    value: 'laptop',
+                    _id: 'i_8'
                 },
                 {
-                    value: 'fas fa-utensils fa-lg',
-                    _id: 9
+                    value: 'food',
+                    _id: 'i_9'
                 },
                 {
-                    value: 'fas fa-laptop fa-lg',
-                    _id: 10
+                    value: 'sports',
+                    _id: 'i_10'
+                },
+                {
+                    value: 'gear',
+                    _id: 'i_11'
+                },
+                {
+                    value: 'pencil',
+                    _id: 'i_12'
                 }
             ]
         },
@@ -116,7 +125,7 @@ const AddCategory = ({addCategory}) => {
                 },
                 {
                     value: '#852048',
-                    _id: 10
+                    _id: 11
                 }
             ]
         },
@@ -147,7 +156,7 @@ const AddCategory = ({addCategory}) => {
 
 
     return (
-        <PopoverFabLayout buttonText='Add category' icon='fas fa-plus fa-lg'>
+        <PopoverFabLayout buttonText='Add category' icon={AddIcon}>
             <Form
                 fields={fields}
                 onChange={handleChange}

@@ -4,12 +4,9 @@ import {Redirect} from 'react-router-dom';
 import {login} from '../../actions';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Container, Paper, makeStyles} from '@material-ui/core'
 import Form from '../helpers/Form'
+import PageLayout from '../layout/PageLayout'
 
-const useStyles = makeStyles(theme => ({
-    pageContainer: theme.commonStyles.authFormContainer
-}))
 
 //MaterialUI components
 
@@ -19,8 +16,6 @@ const Login = ({login, isAuthenticated}) => {
         email: '',
         password: ''
     });
-    
-    const classes = useStyles();
 
     const {email,password} = formData;
 
@@ -55,20 +50,16 @@ const Login = ({login, isAuthenticated}) => {
         return <Redirect to='/dashboard'/>
     }
 
-    return <div className={classes.pageContainer}>
-              <Container maxWidth='sm'>
-                  <Paper>
-                    <Form
-                      onSubmit={onSubmit}
-                      onChange={onChange}
-                      type='login'
-                      redirectTo='/register'
-                      fields={fields}
-                      direction='column'
-                    />
-                  </Paper>
-              </Container>
-          </div>
+    return <PageLayout wrap={false} containerSize='sm' bgc='rgba(0,0,0,0.6)'>
+              <Form
+                onSubmit={onSubmit}
+                onChange={onChange}
+                type='login'
+                redirectTo='/register'
+                fields={fields}
+                direction='column'
+              />
+          </PageLayout>
 }
 Login.propTypes = {
     login: PropTypes.func.isRequired,

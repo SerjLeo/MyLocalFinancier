@@ -1,16 +1,21 @@
 import React, {useEffect} from 'react';
 
+import SimpleBar from 'simplebar-react';
+import 'simplebar/dist/simplebar.min.css';
+
 import Header from '../header';
+import Footer from '../Footer/Footer';
 import {
     LandingPage,
     Dashboard,
     Profile,
     CreateProfile,
-    TransactionsList,
-    IncomesToolbar,
+    AllTransactions,
+    IncomeCatalog,
     Analytics,
     CategoriesAnalytic,
     IncomePage,
+    CategoryPage,
     CategoriesToolbar
 } from '../pages';
 import {Login, Register, Confirm} from '../auth';
@@ -20,10 +25,10 @@ import {Route, Switch} from 'react-router-dom';
 import setAuthToken from '../../utils/setAuthToken';
 import { loadUser} from '../../actions';
 import PrivateRoute from '../routes/PrivateRoute'
-
+import {connect} from 'react-redux'
 import {CssBaseline, makeStyles} from '@material-ui/core';
 
-import Background from './background.png';
+import Background from './background.jpg';
 
 if (localStorage.token) {
     setAuthToken(localStorage.token)
@@ -31,17 +36,17 @@ if (localStorage.token) {
 
 const useStyles = makeStyles({
     appContainer: {
-        background: `url(${Background}) center center/cover no-repeat`,
+        background: `url(${Background}) no-repeat center center/cover fixed`,
         minHeight: '100vh'
     }
   });
 
 
 
-const App = ({store}) => {
+const App = ({loadUser}) => {
     useEffect(() => {
-        store.dispatch(loadUser());
-    }, [store]);
+        loadUser();
+    },[]);
 
     const styles = useStyles();
     
@@ -50,25 +55,29 @@ const App = ({store}) => {
             <CssBaseline/>
             <div className={styles.appContainer}>
                 <Header/>
-                <Route exact path='/' component={LandingPage}/>
-                <Route path='/confirm/:userID'  component={Confirm}/>
-                <Switch>
-                    <Route exact path='/register' component={Register}/>
-                    <Route exact path='/login' component={Login}/>
-                    <PrivateRoute exact path='/dashboard' component={Dashboard}/>
-                    <PrivateRoute exact path='/profile' component={Profile}/>
-                    <PrivateRoute exact path='/createprofile' component={CreateProfile}/>
-                    <PrivateRoute exact path='/transactions' component={TransactionsList}/>
-                    <PrivateRoute exact path='/incomes' component={IncomesToolbar}/>
-                    <PrivateRoute exact path='/categories' component={CategoriesToolbar}/>
-                    <PrivateRoute exact path='/incomes/:incomeID' component={IncomePage}/>
-                    <PrivateRoute exact path='/analytics' component={Analytics}/>
-                    <PrivateRoute exact path='/analytics/categories' component={CategoriesAnalytic}/>
-                </Switch>
-                <Alert/>
+                <SimpleBar style={{maxHeight: '100vh'}}>
+                    <Route exact path='/' component={LandingPage}/>
+                    <Route path='/confirm/:userID'  component={Confirm}/>
+                    <Switch>
+                        <Route exact path='/register' component={Register}/>
+                        <Route exact path='/login' component={Login}/>
+                        <PrivateRoute exact path='/dashboard' component={Dashboard}/>
+                        <PrivateRoute exact path='/profile' component={Profile}/>
+                        <PrivateRoute exact path='/createprofile' component={CreateProfile}/>
+                        <PrivateRoute exact path='/expenses' component={AllTransactions}/>
+                        <PrivateRoute exact path='/incomes' component={IncomeCatalog}/>
+                        <PrivateRoute exact path='/categories' component={CategoriesToolbar}/>
+                        <PrivateRoute exact path='/incomes/:incomeID' component={IncomePage}/>
+                        <PrivateRoute exact path='/categories/:categoryID' component={CategoryPage}/>
+                        <PrivateRoute exact path='/analytics' component={Analytics}/>
+                        <PrivateRoute exact path='/analytics/categories' component={CategoriesAnalytic}/>
+                    </Switch>
+                    <Footer/>
+                    <Alert/>
+                </SimpleBar>
             </div>
         </>
     )
 }
 
-export default App;
+export default connect(null, {loadUser})(App);

@@ -8,6 +8,7 @@ getServerData = async () => {
         console.log(error)
     }
 }
+
 getExchangeRates = (rates) => {
     let USDrate = rates.Valute.USD.Value.toFixed(2).replace('.', ',');
     let USDratePrev = rates.Valute.USD.Previous.toFixed(4).replace('.', ',');
@@ -15,18 +16,19 @@ getExchangeRates = (rates) => {
     let EURratePrev = rates.Valute.EUR.Previous.toFixed(4).replace('.', ',');
     return {USDrate,USDratePrev, EURrate, EURratePrev}
 }
+
 trend = (current, previous) => {
     if (current > previous) return true;
     if (current < previous) return false;
 }
 
 currencyConventer = (incomeCurrency, operationCurrency, amount, EURrate, USDrate) => {
-    EURrate = parseFloat(EURrate.replace(',', '.'))
-    USDrate = parseFloat(USDrate.replace(',', '.'))
-    
+    EURrate = this.convertToFloat(EURrate)
+    USDrate = this.convertToFloat(USDrate)
+    amount = this.convertToFloat(amount)
     if (operationCurrency === incomeCurrency) {
         return new Promise((resolve, reject) => {
-            return resolve({value: parseInt(amount), rate: 1})
+            return resolve({value: amount, rate: 1})
         })
     }
 
@@ -46,14 +48,14 @@ currencyConventer = (incomeCurrency, operationCurrency, amount, EURrate, USDrate
                         case 'RUB':
                             return resolve({value: amount*EURrate, rate: 1/EURrate });
                         case 'USD':
-                            return resolve({value: amount*USDrate/EURrate, rate: EURrate/USDrate});
+                            return resolve({value: amount*EURrate/USDrate, rate: EURrate/USDrate});
                         default:
                             return resolve({value:amount, rate: 1})
                     }
                 } else if (operationCurrency === 'USD') {
                     switch (incomeCurrency) {
                         case 'EUR':
-                            return resolve({value: amount*EURrate/USDrate, rate: USDrate/EURrate});
+                            return resolve({value: amount*USDrate/EURrate, rate: USDrate/EURrate});
                         case 'RUB':
                             return resolve({value: amount*USDrate, rate: 1/USDrate});
                         default:
@@ -65,20 +67,30 @@ currencyConventer = (incomeCurrency, operationCurrency, amount, EURrate, USDrate
     return promise
 }
 
-// calcDeposit
+convertToFloat(number) {
+    if(typeof(number) === 'string') {
+        return Number(parseFloat(number.replace(',', '.')).toFixed(2))
+    } else if(typeof(number) === 'number') {
+        return Number(parseFloat(number).toFixed(2))
+    } else {
+        return null
+    }
+}
 
-calcIncomeChange = (oldBalance, amount, type) => {
-    amount = parseFloat(amount);
+calcBalance = (oldBalance, amount, type = true) => {
+    amount = this.convertToFloat(amount);
+    oldBalance = this.convertToFloat(oldBalance);
     let promise = new Promise ((resolve, reject) => {
         let newBalance = 0;
         if (type) {
-            return resolve(newBalance = oldBalance + amount)
+            newBalance = oldBalance + amount
+            return resolve(newBalance)
         }  else {
-                newBalance = oldBalance - amount
-                if (newBalance < 0) {
-                    reject('Not enough money on this income')
-                }
-                return resolve(newBalance)
+            newBalance = oldBalance - amount
+            if (newBalance < 0) {
+                reject('Insufficient funds in the account')
+            }
+            return resolve(newBalance)
         }
     })
     return promise 

@@ -1,13 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux'
+import {compose} from 'redux'
 import FinanceService from '../../../services/financeService';
-import {updateCategory, getCurrentFinance, updateIncome, addExpense, setAlert} from '../../../actions'
+import {updateIncome, addExpense, setAlert} from '../../../actions'
 
-import {CustomPaper} from '../../Theme/Theming'
 import Form from '../../helpers/Form'
+import SectionLayout from '../../layout/SectionLayout';
+import WithTranslation from '../../translation/withTranslationHOC';
 
-const AddExpense = ({categories, incomes, rates, addExpense, setAlert, getCurrentFinance, updateCategory, updateIncome}) => {
+const AddExpense = ({categories, incomes, rates, addExpense, strings, setAlert, updateIncome}) => {
     const finService = new FinanceService();
 
     const {USDrate, EURrate} = rates;
@@ -68,67 +70,85 @@ const AddExpense = ({categories, incomes, rates, addExpense, setAlert, getCurren
             menuItems: categories
         }
     ]
-
+    
     const handleChange = e => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        })
+      setFormData({
+          ...formData,
+        [e.target.name]: e.target.value
+      })
     }
+
     const handleSubmit = async e => {
         e.preventDefault();
-        try {
-            const newAmount = await finService.currencyConventer(income.currency, currency, amount, EURrate, USDrate);
-            const newBalance = await finService.calcIncomeChange(income.balance, newAmount.value);
-            
 
-            const res = await addExpense({
+        try {
+            const realAmount = Math.abs(parseFloat(amount))
+            const newAmount = await finService.currencyConventer(income.currency, currency, realAmount, EURrate, USDrate);
+            const newBalance = await finService.calcBalance(income.balance, newAmount.value, false);
+
+            const newExpence = {
                 title: title,
-                income: {_id: income._id, currency: income.currency, title: income.title},
-                category: {_id:category._id, title: category.title},
-                amount: amount,
+                income: {
+                  _id: income._id,
+                  currency: income.currency,
+                  title: income.title
+                },
+                icon: category.icon,
+                category: {
+                  _id:category._id,
+                  title: category.title
+                },
+                amount: newAmount.value,
                 currency: currency,
                 exchangeRate: newAmount.rate
-            });
+            }
             
-            await updateCategory(res.data._id, category._id);
-            await updateIncome(newBalance,res.data._id,income._id);
-            getCurrentFinance();
+            await addExpense(newExpence);
+            await updateIncome(income._id, newBalance);
         }
         
         catch(err) {
-            setAlert('Not enough money on this income', 'warning')
+            setAlert(err, 'warning')
         }
         
-        setFormData({
-            title: '',
-            amount: 0,
-            income: '',
-            category: '',
-            currency: 'RUB'
-        });
+        // setFormData({
+        //     title: '',
+        //     amount: 0,
+        //     income: '',
+        //     category: '',
+        //     currency: 'RUB'
+        // });
     }
-    return <Form 
+    return incomes && incomes.length !== 0 && categories && categories.length !== 0
+            ?<SectionLayout title={strings.title}>
+                <Form
                 onSubmit={handleSubmit}
                 onChange={handleChange}
                 type='expense'
+                showTitle={false}
                 direction='row'
-                color='#424242'
+                elevation={0}
+                color='transparent'
                 fields={fields}
                 breakpoints={{
                     sm: 12,
                     xs: 12,
                     md: 2
                 }}
-            ></Form>           
+                ></Form>
+            </SectionLayout>
+            :null           
 }
 
 AddExpense.propTypes = {
     categories: PropTypes.array
 }
 const mapStateToProps = state => ({
-    categories: state.finance.finance.categories,
-    incomes: state.finance.finance.incomes,
-    rates: state.finance.exchangeRate
+    categories: state.category.categories,
+    incomes: state.income.incomes,
+    rates: state.system.exchangeRate
 })
-export default connect(mapStateToProps,{updateCategory, updateIncome, addExpense, setAlert, getCurrentFinance})(AddExpense);
+export default compose(
+    connect(mapStateToProps,{updateIncome, addExpense, setAlert}),
+    WithTranslation
+)(AddExpense);

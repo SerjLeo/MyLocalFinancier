@@ -6,19 +6,21 @@ const useStyles = makeStyles(theme => ({
     pageWrapper: {
         padding: 30,
         [theme.breakpoints.down('xs')]:{
-            padding: 5
+            padding: 15
         },
+        backgroundColor: 'rgba(44, 48, 44, 0.95)',
         minHeight: '85vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        position: 'relative'
     },
 }))
-const PageLayout = ({containerSize = 'lg', wrap = true, children}) => {
+const PageLayout = ({containerSize = 'lg', wrap = true, bgc, children}) => {
     const classes = useStyles();
     return (
-        <div className={classes.pageContainer}>
+        <div className={classes.pageContainer} style={bgc?{backgroundColor:bgc}:null}>
             <Container maxWidth={containerSize}>
                 {wrap?<Paper className={classes.pageWrapper}>{children}</Paper>:<>{children}</>}
             </Container>

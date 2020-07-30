@@ -20,8 +20,8 @@ export default {
             icon: <DashboardIcon/>
         },
         {
-            text: 'All transactions',
-            link: '/transactions',
+            text: 'All expenses',
+            link: '/expenses',
             icon: <SwapHorizIcon/>
         },
         {

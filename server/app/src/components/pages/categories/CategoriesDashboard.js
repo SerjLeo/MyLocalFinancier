@@ -1,24 +1,32 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import PropTypes from 'prop-types';
 import AddCategory from './AddCategory';
-import Info from '../../utils/Info';
+import Info from '../../helpers/Info'
 import {connect} from 'react-redux';
-
+import { compose } from 'redux'
+import {getCategories} from '../../../actions'
+import Spinner from '../../layout/Spinner'
+import SectionLayout from '../../layout/SectionLayout'
+import WithTranslation from '../../translation/withTranslationHOC'
 //Material-UI
-
-import {CustomPaper, PaperRow} from '../../Theme/Theming'
 import DashboardListItem from '../../helpers/DashboardListItem'
 
-const CategoriesDashboard = ({categories}) => {
+const CategoriesDashboard = ({categories, getCategories, loading, strings}) => {
     
-    return (
-        <CustomPaper style={{flexDirection: 'column', paddingBottom:'0'}}>
-        <PaperRow>
-            <span style={{margin:'5px'}}>Categories</span>
-            <Info text={'Add categories to sort transactions'}/>
-        </PaperRow>
-        <PaperRow style={{justifyContent: 'flex-start', flexWrap:'wrap'}}>
-            {categories?categories.map(category => 
+    useEffect(()=>{
+        getCategories()
+    },[])
+
+    if (loading) {
+        return <SectionLayout>
+                    <Spinner/>
+                </SectionLayout>
+    }
+
+    return (categories?
+        <SectionLayout title={strings.title}>
+            <Info text={strings.infoText}/>
+            {categories?categories.slice(0).reverse().map(category => 
             <DashboardListItem 
                 name={category.title}
                 icon={category.icon}
@@ -28,17 +36,22 @@ const CategoriesDashboard = ({categories}) => {
                 id={category._id}
                 type='categories'
             />):null}
-            <AddCategory/>
-        </PaperRow>            
-        </CustomPaper>
+            <AddCategory/>        
+        </SectionLayout>
+        :<Spinner/>
     )
 }
 
 CategoriesDashboard.propTypes = {
-    categories: PropTypes.array
+    categories: PropTypes.array,
+    loading: PropTypes.bool
 }
 const mapStateToProps = state => ({
-    categories: state.finance.finance.categories
+    categories: state.category.categories,
+    loading: state.category.loading
 })
 
-export default connect(mapStateToProps)(CategoriesDashboard);
+export default compose(
+    connect(mapStateToProps, {getCategories}),
+    WithTranslation
+    )(CategoriesDashboard);

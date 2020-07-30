@@ -7,7 +7,9 @@ const useStyles = makeStyles(theme => ({
     fabContainer: {
         width: 80,
         height:"100%",
-        display:"block",
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
         margin: 5
     },
     subtitle: {
@@ -31,11 +33,11 @@ const PopoverFabLayout = ({children, icon, buttonText}) => {
         setAnchorEl(null);
     }
     const open = Boolean(anchorEl);
-    
+    const Icon = icon;
     return (
         <div className={classes.fabContainer} key='create-button'>
             <Fab color="primary" aria-label="add" style={{outline:'none', boxShadow:'none'}} onClick={e => handleClick(e)}>
-                <i className={icon}/>
+                <Icon/>
             </Fab>
             <Popover 
                     open={open}

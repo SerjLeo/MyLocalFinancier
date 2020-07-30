@@ -14,6 +14,12 @@ const theme = createMuiTheme({
         primary: {
             main: '#689f38'
         },
+        expense: {
+            light: "#ffa726",
+            main: "#ef6c00",
+            dark: "#e65100",
+            contrastText: "#fff"
+        },
         info: {
             light: "#64b5f6",
             main: "#2196f3",
@@ -24,9 +30,14 @@ const theme = createMuiTheme({
     },
     commonStyles: {
         pageContainer: {
-            backgroundColor: 'rgba(255,255,255,0.6)',
-            paddingTop: '10vh',
-            minHeight: '100vh',
+            backgroundColor: 'rgba(255,255,255,0.1)',
+            paddingTop: 10,
+            marginTop: '8vh',
+            paddingBottom: 10,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            minHeight: '85vh',
         },
         pageWrapper: {
             padding: 30,

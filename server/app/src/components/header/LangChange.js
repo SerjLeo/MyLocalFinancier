@@ -31,7 +31,7 @@ const styles = makeStyles(theme => ({
 }))
 
 
-const LangChange = ({onLangChange, selectedLanguage, strings}) => {
+const LangChange = ({onLangChange, selectedLanguage}) => {
     const [language, setLanguage] = useState(selectedLanguage);
 
     const handleChange = e => {

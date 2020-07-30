@@ -14,12 +14,9 @@ import {
     CLEAR_FINANCE
 } from './types';
 import {setAlert} from './alert';
-import {getCurrentFinance} from './finance';
+import {createDefaultCategories} from './category';
 import setAuthToken from '../utils/setAuthToken';
 
-
-
-//Load user 
 export const loadUser = () => async dispatch => {
     if (localStorage.token) {
         setAuthToken(localStorage.token)
@@ -33,7 +30,6 @@ export const loadUser = () => async dispatch => {
             payload: res.data
         })
     } catch (err) {
-        console.log({err})
         const errors = err.response.data.errors;
 
         if (errors) {
@@ -46,8 +42,6 @@ export const loadUser = () => async dispatch => {
     }
 }
 
-
-// Register
 export const register = ({name, email, password}) => async dispatch => {
     const config = {
         headers: {
@@ -84,7 +78,6 @@ export const register = ({name, email, password}) => async dispatch => {
     } 
 }
 
-//Confirm email
 export const confirmEmail = id => async dispatch => {
     const config = {
         headers: {
@@ -94,7 +87,7 @@ export const confirmEmail = id => async dispatch => {
     
     try {
         const res = await axios.get(`/api/auth/confirm/${id}`, config)
-        
+        console.log(res);
         if (res.status === 404) {
             dispatch({
                 type: CONFIRMATION_FAILED
@@ -111,10 +104,10 @@ export const confirmEmail = id => async dispatch => {
 
         if (res.status === 202) {
             dispatch({
-                type: CONFIRMATION_SUCCESS,
-                payload: res.data
+                type: CONFIRMATION_SUCCESS
             });
-            dispatch(getCurrentFinance())
+            setAuthToken(res.data.token);
+            dispatch(createDefaultCategories())
             dispatch(setAlert('Email succesfully confirmed!', 'success'))
         }
     } catch (err) {
@@ -129,7 +122,6 @@ export const confirmEmail = id => async dispatch => {
     }
 }
 
-// Login
 export const login = ({email, password}) => async dispatch => {
     const config = {
         headers: {
@@ -168,9 +160,7 @@ export const login = ({email, password}) => async dispatch => {
     } 
 }
 
-// Logout/Clear profile
-
-export const logout = () => async dispatch => {
+export const logout = () => dispatch => {
     dispatch({
         type: CLEAR_PROFILE
     });

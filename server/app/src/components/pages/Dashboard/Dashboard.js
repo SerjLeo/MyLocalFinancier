@@ -2,67 +2,48 @@ import React, {useEffect} from 'react'
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux'
 
-import {getCurrentProfile, getCurrentFinance, loadUser, getRate} from '../../../actions';
+import {getProfile, loadUser, getRate} from '../../../actions';
 import Spinner from '../../layout/Spinner';
-import IncomeDasboard from '../incomes/IncomeDashboard';
+import IncomeDashboard from '../incomes/IncomeDashboard';
 import CategoriesDashboard from '../categories/CategoriesDashboard';
-import ExchangeRates from './ExchangeRates';
+import Welcome from './Welcome';
 import AddExpense from '../expenses/AddExpense';
 import LastTransactions from '../expenses/LastTransactions'
 
-//Material-UI
-
-import {MyButton, CustomLink, PaperRow} from '../../Theme/Theming';
-import {Paper} from '@material-ui/core';
 import PageLayout from '../../layout/PageLayout';
 
-
-const Dashboard = ({getCurrentProfile, getRate, loadUser, getCurrentFinance, loading, profile: {profile}, auth: {user}}) => {
+const Dashboard = ({exchangeRate, loadUser, auth: {user, loading}}) => {
     
     useEffect(()=>{
-        loadUser();
-        getCurrentFinance(); 
-        getRate();
-        getCurrentProfile();
-    }, [loading]);
-
+        if(!user) {
+            loadUser();
+        }
+    }, []);
+    
     if(loading) {
-        return  <PageLayout wrap={false}>
+        return  <PageLayout>
                     <Spinner/>
                 </PageLayout>
     }
     return (
         <PageLayout wrap={false}>
-                <Paper style={{marginBottom: '10px'}}>
-                    <PaperRow>
-                        <span style={{padding:'15px'}}>Welcome, {profile? profile.name:user && user.name}!</span>
-                        {profile !== null ? null : (
-                            <>
-                                <CustomLink to='/createprofile'>
-                        
-                                    <MyButton style={{color: 'rgb(28,26,26)'}}>Set profile</MyButton>
-                                </CustomLink>
-                            </>
-                        )}
-                        <ExchangeRates/>
-                    </PaperRow>
-                </Paper>
-                <IncomeDasboard/>
+                <Welcome/>
+                <IncomeDashboard/>
                 <CategoriesDashboard/>
-                <AddExpense/>
+                {exchangeRate?<AddExpense/>:null}
                 <LastTransactions/>
         </PageLayout>
     )
 }
 
 Dashboard.propTypes = {
-    getCurrentProfile: PropTypes.func.isRequired,
+    getProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
 }
 const mapStateToProps = (state) => ({
     profile: state.profile,
     auth: state.auth,
-    loading: state.finance.loading
+    exchangeRate: state.system.exchangeRate
 })
-export default connect(mapStateToProps, {getCurrentProfile, getCurrentFinance, loadUser, getRate})(Dashboard);
+export default connect(mapStateToProps, {getProfile, loadUser, getRate})(Dashboard);

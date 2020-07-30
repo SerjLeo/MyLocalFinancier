@@ -23,24 +23,30 @@ const CategoriesToolbar = ({categories, loading, getCategories}) => {
     }
     return (
         <PageLayout>
-            <Grid container alignContent='center'>
-                {categories.map(category =>(
-                    <CategoryCard
-                        id={category._id}
-                        key={category._id}
-                        title={category.title}
-                        icon={category.icon}
-                        color={category.color}
-                    />
-                ))}
+            <Grid container>
+                <Grid item xs={12} sm={6}>
+                    <Grid container alignContent='center'>
+                        {categories.map(category =>(
+                            <CategoryCard
+                                id={category._id}
+                                key={category._id}
+                                title={category.title}
+                                icon={category.icon}
+                                color={category.color}
+                            />
+                        ))}
+                    </Grid>
+                </Grid>
+                <Grid item xs={12} sm={6}>Keks</Grid>
             </Grid>
+            
         </PageLayout>
     )
 }
 
 const mapStateToProps = state => ({
-    categories: state.finance.finance.categories,
-    loading: state.finance.loading
+    categories: state.category.categories,
+    loading: state.category.loading
 })
 
 CategoriesToolbar.propTypes = {

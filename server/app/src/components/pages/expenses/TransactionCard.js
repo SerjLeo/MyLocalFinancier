@@ -1,87 +1,125 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { Divider, Grid, Paper, Button, makeStyles } from '@material-ui/core';
+import {Grid, Paper, makeStyles } from '@material-ui/core';
+import getCategoriesIcon from '../../layout/Icons/categoriesIcons';
+import getIncomeIcon from '../../layout/Icons/incomeIcons';
 
 const useStyles = makeStyles(theme=> ({
-    cardWrapper: {
-        padding: 10,
-        width: '100%'
+    cardWrapper:{
+        position: 'relative',
+        height: 55,
+        padding: 5,
+        width: '70%',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%'
+          },
+        marginTop: 10,
+        boxShadow: '4px 6px 9px -1px rgba(0,0,0,0.33)',
+        borderRadius: 0,
+        cursor: 'pointer',
+        transition: 'all 1s ease-out',
+        '&:hover':{
+            backgroundColor: 'rgba(0,0,0,0.5)'
+        }
     },
     cardContainer: {
         display: 'flex',
         flexDirection: 'row',
-        paddingTop: 10
-    },
-    amountSection: {
-        display: 'flex',
-        alignItems: 'center',
-        [theme.breakpoints.down('sm')]: {
-            fontSize: 12
-        }
-    },
-    hiddenSection: {
-        [theme.breakpoints.down('sm')]: {
-            display: 'none'
-        },
-        overflow: 'auto',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end'
-    },
-    firstSection: {
-        overflow: 'auto',
-        display: 'flex',
         justifyContent: 'flex-start',
+        height: '100%',
+        alignContent: 'center',
         alignItems: 'center',
-        [theme.breakpoints.down('sm')]: {
-            fontSize: 12
-        }
+        fontSize: 20
     },
-    dateSection: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        [theme.breakpoints.down('sm')]: {
-            alignItems: 'flex-end',
-            fontSize: 10
-        }
+    typeBarDeposit: {
+        position: "absolute",
+        left:0,
+        top:0,
+        height: '100%',
+        width: 3,
+        backgroundColor: theme.palette.primary.main,
+    },
+    typeBarExpense: {
+        position: "absolute",
+        left:0,
+        top:0,
+        height: '100%',
+        width: 3,
+        backgroundColor: theme.palette.secondary.main,
+    },
+    amount: {
+        paddingLeft: 10
+    },
+    iconDeposit: {
+        color: theme.palette.primary.light,
+    },
+    iconExpense: {
+        color: theme.palette.secondary.light,
     }
 }))
 
-const TransactionCard = ({title, amount, category, type, date, income, currency}) => {
-    let rexp = new RegExp("[-t:/.]", "gim")
-    let dateArr = date.split(rexp)
+
+const TransactionCard = ({transaction, type}) => {
     const classes = useStyles();
-    return (
-        <Paper className={classes.cardWrapper} elevation={0}>
-            <Divider/>
-            <Grid container className={classes.cardContainer}>
-                <Grid item xs={6} md={3} className={classes.firstSection}>
-                    {title}
+    const getCurrencyLabel = currency => {
+        switch(currency){
+            case 'USD':
+                return '\u0024';
+            case 'RUB':
+                return "\u20BD";
+            case 'EUR':
+                return '\u20AC';
+            default:
+                return
+        }
+    }
+
+    if(type === 'deposit') {
+        return (
+            <Paper className={classes.cardWrapper} elevation={0}>
+                <div className={classes.typeBarDeposit}/>
+                <Grid container className={classes.cardContainer}>
+                    <Grid item xs={10} sm={11} className={classes.amount}>
+                        {transaction.amount}{' '}{getCurrencyLabel(transaction.currency)}
+                    </Grid>
+                    <Grid item xs={2} sm={1}>
+                        <div className={classes.iconDeposit}>
+                            {getIncomeIcon(transaction.icon)()}
+                        </div>
+                    </Grid>
                 </Grid>
-                <Grid item xs={3} md={3} className={classes.amountSection}>
-                    {(type === 'true')?(<div style={{color:'green'}}>{amount}{' '}{currency}</div>):(<div style={{color:'red'}}>{'- '}{amount}{' '}{currency}</div>)}
+            </Paper>
+        )
+    }
+
+    if(type === 'expense') {
+        return (
+            <Paper className={classes.cardWrapper} elevation={0}>
+                <div className={classes.typeBarExpense}/>
+                <Grid container className={classes.cardContainer}>
+                    <Grid item xs={4} className={classes.amount}>
+                        {transaction.amount}{' '}{getCurrencyLabel(transaction.currency)}
+                    </Grid>
+                    <Grid item xs={6} sm={7} className={classes.title}>
+                        {transaction.title}
+                    </Grid>
+                    <Grid item xs={2} sm={1}>
+                        <div className={classes.iconExpense}>
+                            {getCategoriesIcon(transaction.icon)()}
+                        </div>
+                    </Grid>
                 </Grid>
-                <Grid item xs={3} md={3} className={classes.dateSection}>
-                    <div>
-                        {dateArr[3]}:{dateArr[4]}
-                    </div>
-                    <div>
-                        {dateArr[2]}.{dateArr[1]}.{dateArr[0]}
-                    </div>
-                </Grid>
-                <Grid item md={3} className={classes.hiddenSection}>{category.title}</Grid>
-                {/* <Button onClick={()=>console.log(`${title} is clicked`)}></Button> */}
-            </Grid>
-        </Paper>
-    )
+            </Paper>
+        )
+    }
+    return null
 }
 
 TransactionCard.propTypes = {
     title: PropTypes.string,
     amount: PropTypes.number,
     type: PropTypes.string,
+    icon: PropTypes.string,
     category: PropTypes.object,
     date: PropTypes.string,
     currency: PropTypes.string,

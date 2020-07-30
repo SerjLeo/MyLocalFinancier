@@ -39,7 +39,7 @@ export default {
             description: 'Description'
         },
         expense: {
-            titleText: "Add transaction",
+            titleText: "Add expense",
             buttonText: "Add",
             income: 'Income',
             title: 'Title',
@@ -54,7 +54,8 @@ export default {
             location: 'Location',
             phone: 'Phone',
             language: 'Language',
-            mainCurrency: 'Main Currency'
+            mainCurrency: 'Main Currency',
+            backButtonText: 'Back'
         }
     },
     LandingPage: {
@@ -65,5 +66,27 @@ export default {
     Confirm: {
         titleText: 'Email successfully confirmed!',
         buttonText: 'move to login'
+    },
+    IncomeTabs:{
+        depositTab: 'Add deposit',
+        expenseTab: 'Add expense'
+    },
+    IncomeDashboard: {
+        infoText: 'Add incomes to manage your finance',
+        title: 'Incomes'
+    },
+    CategoriesDashboard: {
+        infoText: 'Add categories to sort transactions',
+        title: 'Categories'
+    },
+    LastTransactions: {
+        title: 'Last transactions',
+        loadMoreButtonText: 'More transactions'
+    },
+    Welcome: {
+        greetings: 'Welcome, '
+    },
+    AddExpense: {
+        title: 'Add expense'
     }
 };

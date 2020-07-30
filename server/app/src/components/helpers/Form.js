@@ -4,6 +4,7 @@ import {TextField, Paper, Grid, Button, Typography, FormControl, InputLabel, Men
 import {CustomLink} from '../utils/CustomLink'
 import {makeStyles} from '@material-ui/core/styles';
 import WithTranslation from '../translation/withTranslationHOC'
+import getCategoriesIcon from '../layout/Icons/categoriesIcons';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -11,8 +12,8 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 40,
-        maxWidth: '100vw'
+        padding: '0 40px 40px 40px',
+        width: '100%'
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -31,10 +32,13 @@ const Form = ({
     direction,
     fields,
     type,
-    color = 'rgba(0,0,0,0.1)',
+    title = true,
+    hasBackBtn = false,
+    goBack,
+    color = 'rgba(44, 48, 44,0.8)',
     strings,
     redirectTo,
-    fullWidthBtn = true,
+    showTitle = true,
     elevation = 1,
     breakpoints = {
         sm: false,
@@ -46,9 +50,8 @@ const Form = ({
 
     const classes = useStyles();
     
-   
     const {sm,xs,md,lg} = breakpoints
-
+    
     strings = Object.entries(strings).filter(item => item[0] === type).reduce((flattenArray, element) => {
         return Array.isArray(element)
         ? [...flattenArray, ...element]
@@ -57,9 +60,9 @@ const Form = ({
 
     return (fields?(
         <Paper className={classes.paper} style={{backgroundColor: color}} elevation={elevation}>
-            <Typography variant="h4">
+            {title && showTitle?<Typography variant="h4" style={{paddingTop: '40px'}}>
                 {strings.titleText}
-            </Typography>
+            </Typography>:null}
             <form className={classes.form} onSubmit={e => onSubmit(e)} autoComplete="off" style={{flexDirection: direction}}>
                 <Grid container spacing={2} style={{justifyContent: 'space-between', alignItems: 'center'}}>
                     {fields.map((field, index) => {
@@ -79,7 +82,7 @@ const Form = ({
                                                 name={field.name}
                                                 onChange={e => onChange(e)}
                                                 >
-                                                {field.menuItems.map(item => <MenuItem key={item._id} value={item.value || item._id}>
+                                                {field.menuItems.map(item => <MenuItem key={item._id} value={item.value || item}>
                                                     {item.title}
                                                 </MenuItem>)}
                                                 </Select>
@@ -95,7 +98,7 @@ const Form = ({
                                                 onChange={e => onChange(e)}
                                                 >
                                                 {field.menuItems.map(item => <MenuItem style={{justifyContent: 'center'}} key={item._id} value={item.value}>
-                                                    <i className={item.value}/>
+                                                    {getCategoriesIcon(item.value)()}
                                                 </MenuItem>)}
                                                 </Select>
                                             </FormControl>
@@ -136,16 +139,41 @@ const Form = ({
                         }
                     })}
                 </Grid>
-                <Button
-                    type="submit"
-                    fullWidth={fullWidthBtn}
-                    variant="outlined"
-                    color="primary"
-                    className={classes.submit}
-                >
-                    {strings.buttonText}
-                </Button>              
-                {strings && strings.redirectText
+                {hasBackBtn
+                        ?<Grid container>
+                            <Grid item xs={6} style={{paddingRight: '10px'}}>
+                                <Button
+                                    fullWidth
+                                    onClick={() => goBack()}
+                                    variant="outlined"
+                                    color="secondary"
+                                    className={classes.submit}
+                                >
+                                    {strings.backButtonText}
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6} style={{paddingLeft: '10px'}}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="outlined"
+                                    color="primary"
+                                    className={classes.submit}
+                                >
+                                    {strings.buttonText}
+                                </Button>
+                            </Grid>   
+                    </Grid>
+                    :<Button
+                        type="submit"
+                        fullWidth
+                        variant="outlined"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        {strings.buttonText}
+                    </Button>}                        
+                {redirectTo && strings && strings.redirectText
                 ?(<Grid container justify='center' alignItems='center'>
                     <Grid item>
                     <CustomLink to={redirectTo} variant="body2">

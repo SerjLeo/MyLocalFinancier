@@ -1,52 +1,97 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux';
+import {compose} from 'redux'
 import TransactionCard from './TransactionCard';
-import Info from '../../utils/Info';
-import {CustomPaper, PaperRow, CustomLink, MyButton} from '../../Theme/Theming'
+import CustomLink from '../../helpers/CustomLink'
+import SectionLayout from '../../layout/SectionLayout'
+import Spinner from '../../layout/Spinner'
+import {Button, makeStyles} from '@material-ui/core'
+import {getExpenses, getDeposits} from '../../../actions'
+import moment from 'moment'
+import WithTranslation from '../../translation/withTranslationHOC'
 
-const LastTransactions = ({transactions, loading}) => {
-    if (loading || transactions === undefined) {
-        return <>Loading...</>
+const useStyles = makeStyles(theme=> ({
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        margin: 'auto',
+        padding: '20px',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    btn: {
+        marginTop: 20
     }
-    if (transactions.length === 0) {
+}))
+
+const LastTransactions = ({expenses, expenseLoading, getExpenses, deposits, depositLoading, getDeposits, strings}) => {
+
+    useEffect(() => {
+        getExpenses()
+        getDeposits()
+    }, [])
+    const classes = useStyles();
+    if (expenseLoading && depositLoading || expenses === undefined && deposits === undefined) {
+        return <SectionLayout>
+                 <Spinner/>
+               </SectionLayout>
+    }
+    if (expenses.length === 0 && deposits.length === 0) {
         return (
-            <CustomPaper>
-            <PaperRow>
-                No transactions yet...
-            </PaperRow>
-        </CustomPaper>
+            <SectionLayout>
+                No expenses yet...
+            </SectionLayout>
         )
     }
 
+    let transactions = [
+        ...expenses,
+        ...deposits
+    ]
+
+    transactions.sort((a, b) => {
+        if(moment(a.date).isAfter(moment(b.date)))
+            return -1
+        else if (moment(a.date).isBefore(moment(b.date)))
+            return 1
+        else 
+            return 0
+    })
+
     return (
-        <CustomPaper>
-            <PaperRow>
-                <span style={{margin:'5px', marginBottom:'20px'}}>Last transactions</span>
-                <Info text={'Last transactions'}/>
-            </PaperRow>
-            {transactions.map((transaction, i) => {
-                while(i <3) {
-                    return <TransactionCard key={transaction._id} title={transaction.title} id={transaction._id} type={transaction.type} amount={transaction.amount} category={transaction.category} income={transaction.income} date={transaction.date} currency={transaction.currency}/>
-                }
-                return null
-            })}
-            <PaperRow style={{justifyContent: 'center'}}>
-                
-                    <CustomLink to='/transactions'>
-                    <MyButton style={{width: '220px'}}>More transactions</MyButton>
-                    </CustomLink>
-                
-            </PaperRow>
-        </CustomPaper>
+        <SectionLayout title={strings.title}>
+            <div className={classes.container}>
+                {transactions.map((transaction, i) => {
+                    while(i < 5) {
+                        return <TransactionCard
+                        key={transaction._id}
+                        transaction={transaction}
+                        type={transaction.category === undefined?'deposit':'expense'}
+                        />
+                    }
+                    return null
+                })}
+                <CustomLink to='/expenses' className={classes.btn}>
+                    <Button color='primary' variant='outlined'>{strings.loadMoreButtonText}</Button>
+                </CustomLink>
+            </div>
+        </SectionLayout>
     )
 }
 
 LastTransactions.propTypes = {
-    transactions: PropTypes.array
+    expenses: PropTypes.array
 }
 const mapStateToProps = (state) => ({
-    transactions: state.finance.finance.transactions,
-    loading: state.finance.loading
+    expenses: state.expense.expenses,
+    expenseLoading: state.expense.loading,
+    deposits: state.deposit.deposits,
+    depositLoading: state.deposit.loading
 })
-export default connect(mapStateToProps)(LastTransactions)
+
+export default compose(
+    connect(mapStateToProps, {getExpenses, getDeposits}),
+    WithTranslation
+)(LastTransactions)

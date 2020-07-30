@@ -15,21 +15,15 @@ const ProfileSchema = new mongoose.Schema({
     location: {
       type: String
     },
-    options: {
-      language: {
-        type: String,
-        default: 'eng'
-      },
-      mainCurrency: {
-        type: String,
-        default: 'USD'
-      },
-      walletPairs: []
+    language: {
+      type: String,
+      default: 'eng'
     },
-    date: {
-      type: Date,
-      default: Date.now
-    }
+    mainCurrency: {
+      type: String,
+      default: 'USD'
+    },
+    currencyPairs: []
   });
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema)

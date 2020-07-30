@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './components/app';
 
+
 import AppServiceContext from './components/appServiceContext/appServiceContext';
 import FinanceService from './services/financeService'
 import {BrowserRouter as Router} from 'react-router-dom';

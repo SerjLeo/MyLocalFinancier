@@ -1,25 +1,49 @@
-import { setAlert } from './alert';
-import { register, loadUser, login, logout, confirmEmail } from './auth';
-import { getCurrentProfile, changeProfile, setLanguage } from './profile';
-import { getCurrentFinance, updateIncome, getIncomeByID, addExpense, getIncomes, getCategories, addIncome, addCategory, getRate, updateCategory } from './finance';
+import {setAlert} from './alert';
+import {register, loadUser, login, logout, confirmEmail} from './auth';
+import {getProfile, setProfile} from './profile';
+import {addExpense, getExpensesByIncome, getExpensesByCategory, getExpenses, loadMoreExpenses, deleteRelatedExpenses, deleteSingleExpense} from './expense';
+import {updateIncome, getIncomeByID, addIncome, getIncomes, deleteIncome} from './income';
+import {getCategories, addCategory, deleteCategory, getCategoryByID} from './category';
+import {addDeposit, getDeposits, getDepositsByIncome, deleteRelatedDeposits, deleteSingleDeposit} from './deposit';
+import {getRate, setLanguage} from './helpers';
+
 export {
-    setAlert,
     register,
     loadUser,
     login,
     logout,
-    getCurrentProfile,
-    getCurrentFinance,
-    changeProfile,
-    addIncome,
-    addCategory,
+    //profile
+    getProfile,
+    setProfile,
+    //system
     getRate,
-    updateCategory,
-    updateIncome,
     setLanguage,
     confirmEmail,
-    getIncomes,
+    setAlert,
+    //categories
+    deleteCategory,
+    getCategoryByID,
+    addCategory,
     getCategories,
+    //incomes
+    updateIncome,
+    getIncomeByID,
+    addIncome,
+    getIncomes,
+    deleteIncome,
+    //expenses
+    getExpenses,
+    loadMoreExpenses,
+    getExpensesByIncome,
+    getExpensesByCategory,
     addExpense,
-    getIncomeByID
+    deleteSingleExpense,
+    deleteRelatedExpenses,
+
+    //deposits
+    addDeposit,
+    getDeposits,
+    getDepositsByIncome,
+    deleteRelatedDeposits,
+    deleteSingleDeposit
 }

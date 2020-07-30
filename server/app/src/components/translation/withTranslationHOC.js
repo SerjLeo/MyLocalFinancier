@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import rus from './rus'
 import eng from './eng'
 import store from '../../store'
@@ -9,10 +9,15 @@ const languages = {
 }
 
 const WithTranslation = WrappedComponent =>
-    class TranslatedComponent extends Component {
+    class TranslatedComponent extends PureComponent {
       constructor(props) {
         super(props);
-        let language = store.getState().profile.language;
+        let language
+        if(store.getState().profile && store.getState().profile.profile && store.getState().profile.profile.language) {
+          language = store.getState().profile.profile.language;
+        } else {
+          language = store.getState().system.language;
+        }
         let strings = languages[language][WrappedComponent.name]
         this.state = {
           language,
@@ -22,7 +27,12 @@ const WithTranslation = WrappedComponent =>
 
       componentDidMount() {
         this.unsubscribe = store.subscribe(() =>{
-          let language = store.getState().profile.language;
+          let language
+          if(store.getState().profile && store.getState().profile.profile && store.getState().profile.profile.language) {
+            language = store.getState().profile.profile.language;
+          } else {
+            language = store.getState().system.language;
+          }
           let strings = languages[language][WrappedComponent.name]
           this.setState({
             language,

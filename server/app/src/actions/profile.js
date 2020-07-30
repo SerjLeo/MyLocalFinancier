@@ -1,22 +1,22 @@
 import axios from 'axios';
 import {
-   GET_PROFILE,
+   SET_PROFILE,
    PROFILE_ERROR,
-   SET_LANGUAGE
+   PROFILE_LOADING_ON
 } from './types';
-import setAuthToken from '../utils/setAuthToken';
 import { setAlert } from '.';
 
-//Load current user's profile
-export const getCurrentProfile = () => async dispatch => {
+//Load user's profile
+export const getProfile = () => async dispatch => {
     try {
-        if (localStorage.token) {
-            setAuthToken(localStorage.token)
-        }
+        dispatch({
+            type: PROFILE_LOADING_ON
+        })
+
         const res = await axios.get('/api/profile/me');
 
         dispatch({
-            type: GET_PROFILE,
+            type: SET_PROFILE,
             payload: res.data
         })
     } catch (err) {
@@ -26,18 +26,14 @@ export const getCurrentProfile = () => async dispatch => {
         })
     }
 }
-//Set language
-
-export const setLanguage = language => dispatch => {
-    dispatch({
-        type: SET_LANGUAGE,
-        payload: language
-    })
-}
 
 // Create or update profile
-export const changeProfile = (formData, history, edit = false) => async dispatch => {
+export const setProfile = (formData, history, edit = false) => async dispatch => {
     try {
+        dispatch({
+            type: PROFILE_LOADING_ON
+        })
+
         const config = {
             headers: {
                 'Content-Type':'application/json'
@@ -47,7 +43,7 @@ export const changeProfile = (formData, history, edit = false) => async dispatch
         const res = await axios.post('/api/profile', formData, config);
 
         dispatch({
-            type: GET_PROFILE,
+            type: SET_PROFILE,
             payload: res.data
         })
 

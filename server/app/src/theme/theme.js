@@ -32,12 +32,11 @@ const theme = createMuiTheme({
         pageContainer: {
             backgroundColor: 'rgba(255,255,255,0.1)',
             paddingTop: 10,
-            marginTop: '8vh',
             paddingBottom: 10,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            minHeight: '85vh',
+            height: 'calc(100vh - 64px)',
         },
         pageWrapper: {
             padding: 30,
@@ -51,9 +50,17 @@ const theme = createMuiTheme({
             paddingTop: '10vh',
             minHeight: '100vh',
         }
+    },
+    breakpoints: {
+        values: {
+            xs: 0,
+            xsm: 360,
+            sm: 620,
+            md: 960,
+            lg: 1280,
+            xl: 1920
+        }
     }
 });
-
-console.log(theme);
 
 export default responsiveFontSizes(theme)

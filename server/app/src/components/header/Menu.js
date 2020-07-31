@@ -49,6 +49,7 @@ export default function Menu() {
       <Typography variant='h6' className={classes.title}>
         Menu
       </Typography>
+      <Divider />
       <List>
         {menu.map(item => (
           <CustomLink to={item.link} key={item.text}>
@@ -73,20 +74,7 @@ export default function Menu() {
           </CustomLink>
         ))}
       </List>
-      <Typography variant='h6' className={classes.title}> 
-        Finance
-      </Typography>
-      <Divider />
-      <List>
-        {finance.map(item => (
-          <CustomLink to={item.link} key={item.text}>
-            <ListItem button>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
-            </ListItem>
-          </CustomLink>
-        ))}
-      </List>
+
     </div>
   );
 

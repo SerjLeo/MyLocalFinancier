@@ -27,11 +27,7 @@ const Dashboard = ({exchangeRate, loadUser, auth: {user, loading}}) => {
     }
     return (
         <PageLayout wrap={false}>
-                <Welcome/>
-                <IncomeDashboard/>
-                <CategoriesDashboard/>
-                {exchangeRate?<AddExpense/>:null}
-                <LastTransactions/>
+
         </PageLayout>
     )
 }

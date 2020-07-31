@@ -5,14 +5,15 @@ import {logout, setLanguage} from '../../actions';
 import PropTypes from 'prop-types';
 import Menu from './Menu'
 import LangChange from './LangChange'
-import PersonIcon from '@material-ui/icons/Person';
+import SettingsIcon from '@material-ui/icons/Settings'
+import PersonIcon from '@material-ui/icons/Person'
 import {LoginIcon, LogoutIcon} from '../layout/Icons/NavBar'
 //MaterialUI components
 import {AppBar, Toolbar, Typography, Grid, makeStyles} from '@material-ui/core';
 
 const useStyles = makeStyles(theme=>({
     menuItemText: {
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             display: 'none'
         },
         marginRight: 10,
@@ -33,6 +34,12 @@ const useStyles = makeStyles(theme=>({
         display: 'flex',
         justifyContent: 'flex-end',
         alignItems: 'center'
+    },
+    title: {
+        fontSize: '18px',
+        [theme.breakpoints.up('xsm')]: {
+            fontSize: '1.5625rem'
+        }
     }
 }))
 
@@ -41,9 +48,9 @@ const Header = ({isAuthenticated, loading, logout, language, setLanguage}) => {
     const handleLangChange = language => setLanguage(language);
     const userLinks = (
         <>
-            <CustomLink className={classes.menuItem} to='/profile'>
-                <PersonIcon/>{' '}
-                <div className={classes.menuItemText}>Profile</div>
+            <CustomLink className={classes.menuItem} to='/settings'>
+                <SettingsIcon/>{' '}
+                <div className={classes.menuItemText}>Settings</div>
             </CustomLink>
             <CustomLink className={classes.menuItem} to='/' onClick={() => {logout()}}>
                 <LogoutIcon/>{' '}   
@@ -69,12 +76,12 @@ const Header = ({isAuthenticated, loading, logout, language, setLanguage}) => {
     );
 
     return (
-        <AppBar position="fixed" style={{height: '8vh'}}>
+        <AppBar position="absolute">
             <Toolbar>
                 <Grid container direction='row' alignContent='center' alignItems='center'>
                     <Grid item xs={6} className={classes.leftPanel}>
                         {!loading && isAuthenticated &&<Menu/>}
-                        <Typography variant="h4">
+                        <Typography variant="h4" className={classes.title}>
                             <CustomLink to="/">
                                 MyLocalFinancier
                             </CustomLink>

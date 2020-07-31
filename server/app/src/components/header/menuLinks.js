@@ -2,14 +2,10 @@ import React from 'react'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import CategoryIcon from '@material-ui/icons/Category';
-import PersonIcon from '@material-ui/icons/Person';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import PieChartIcon from '@material-ui/icons/PieChart';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
-import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 
 export default {
@@ -20,7 +16,7 @@ export default {
             icon: <DashboardIcon/>
         },
         {
-            text: 'All expenses',
+            text: 'Transactions',
             link: '/expenses',
             icon: <SwapHorizIcon/>
         },
@@ -36,11 +32,6 @@ export default {
 
         },
         {
-            text: 'Profile',
-            link: '/profile',
-            icon: <PersonIcon/>
-        },
-        {
             text: 'Options',
             link: '/options',
             icon: <SettingsIcon/>
@@ -53,31 +44,14 @@ export default {
             icon: <AssessmentIcon/>
         },
         {
-            text: 'Incomes & Expenses',
-            link: '/analytics/incexp',
+            text: 'Transactions',
+            link: '/analytics/transactions',
             icon: <ImportExportIcon/>
         },
         {
             text: 'By categories',
             link: '/analytics/categories',
             icon: <PieChartIcon/>
-        }
-    ],
-    finance: [
-        {
-            text: 'Exchange rates',
-            link: '/rates',
-            icon: <LocalAtmIcon/>
-        },
-        {
-            text: 'Stocks',
-            link: '/stocks',
-            icon: <TrendingUpIcon/>
-        },
-        {
-            text: 'Investments',
-            link: '/investments',
-            icon: <BusinessCenterIcon/>
         }
     ]
 }

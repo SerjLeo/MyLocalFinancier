@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
 
+//custom scrollbar
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
 import Header from '../header';
-import Footer from '../Footer/Footer';
+import Footer from '../footer/Footer';
 import {
     LandingPage,
     Dashboard,
@@ -23,7 +24,7 @@ import {Alert} from '../Errors';
 
 import {Route, Switch} from 'react-router-dom';
 import setAuthToken from '../../utils/setAuthToken';
-import { loadUser} from '../../actions';
+import {loadUser} from '../../actions';
 import PrivateRoute from '../routes/PrivateRoute'
 import {connect} from 'react-redux'
 import {CssBaseline, makeStyles} from '@material-ui/core';
@@ -37,13 +38,12 @@ if (localStorage.token) {
 const useStyles = makeStyles({
     appContainer: {
         background: `url(${Background}) no-repeat center center/cover fixed`,
-        minHeight: '100vh'
+        height: '100vh'
     }
   });
 
-
-
 const App = ({loadUser}) => {
+
     useEffect(() => {
         loadUser();
     },[]);

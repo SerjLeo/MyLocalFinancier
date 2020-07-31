@@ -39,11 +39,11 @@ const LandingPage = ({isAuthenticated, strings}) => {
                 </div>
             </div>
             <div className="welcome-container__button">
-                <CustomLink to='/login'>
-                    <Button >{strings.loginBtn}</Button>
+                <CustomLink to='/login' style={{margin: 10}}>
+                    <Button variant="contained" color="primary">{strings.loginBtn}</Button>
                 </CustomLink>
-                <CustomLink to='/register'>
-                    <Button>{strings.registerBtn}</Button>
+                <CustomLink to='/register' style={{margin: 10}}>
+                    <Button variant="contained" color="primary">{strings.registerBtn}</Button>
                 </CustomLink>
             </div>
         </PageLayout>

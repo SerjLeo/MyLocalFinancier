@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {DefaultError} from '../Errors';
 
-export default class ErrorBoundry extends Component {
+export default class ErrorBoundary extends Component {
 
     state = {
         error: false

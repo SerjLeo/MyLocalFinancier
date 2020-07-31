@@ -6,7 +6,7 @@ const {
     getIncomeByID,
     updateIncome,
     deleteIncome
-} = require('../../controllers/incomeController')
+} = require('../../controllers/income')
 const {check} = require('express-validator')
 const auth = require('../../middleware/auth')
 

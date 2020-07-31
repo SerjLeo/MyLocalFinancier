@@ -8,6 +8,7 @@ import LangChange from './LangChange'
 import SettingsIcon from '@material-ui/icons/Settings'
 import PersonIcon from '@material-ui/icons/Person'
 import {LoginIcon, LogoutIcon} from '../layout/Icons/NavBar'
+
 //MaterialUI components
 import {AppBar, Toolbar, Typography, Grid, makeStyles} from '@material-ui/core';
 

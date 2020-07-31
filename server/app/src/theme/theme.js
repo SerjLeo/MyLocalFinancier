@@ -31,16 +31,16 @@ const theme = createMuiTheme({
     commonStyles: {
         pageContainer: {
             backgroundColor: 'rgba(255,255,255,0.1)',
-            paddingTop: 10,
+            paddingTop: 70,
             paddingBottom: 10,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            height: 'calc(100vh - 64px)',
+            minHeight: 'calc(100vh - 64px)',
         },
         pageWrapper: {
             padding: 30,
-            minHeight: '80vh',
+            minHeight: '100%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',

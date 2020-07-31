@@ -7,12 +7,16 @@ import { compose } from 'redux'
 import {getIncomes} from '../../../actions'
 import AddIncomeForm from './incomeHelpers/AddIncomeForm';
 import Info from '../../helpers/Info'
-import DashboardListItem from '../../helpers/DashboardListItem';
+import IncomeDashboardItem from './IncomeDashboardItem';
 import Spinner from '../../layout/Spinner'
 import SectionLayout from '../../layout/SectionLayout'
 import WithTranslation from '../../translation/withTranslationHOC'
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import IncomeDashboardCard from "./IncomeDashboardCard";
 
-const IncomeDashboard = ({incomes, getIncomes, loading, strings}) => {   
+const IncomeDashboard = ({incomes, getIncomes, loading, strings}) => {
+    const matches = useMediaQuery('(min-width:620px)');
+    const isWide = useMediaQuery('(min-width:440px)');
 
     useEffect(() => {
         getIncomes()
@@ -23,23 +27,38 @@ const IncomeDashboard = ({incomes, getIncomes, loading, strings}) => {
                 <Spinner/>
             </SectionLayout>
     }
-    
+
     return (incomes
-        ?<SectionLayout title={strings.title}>
-            <Info text={strings.infoText}/>
-            {incomes?incomes.slice(0).reverse().map(income => 
-            <DashboardListItem 
-                name={income.title}
-                id={income._id}
-                icon={income.icon}
-                balance={income.balance}
-                currency={income.currency}
-                color={income.color}
-                key={income._id}
-                type='incomes'/>
-            ):null}
-            <AddIncomeForm/>
-        </SectionLayout>
+        ?<SectionLayout title={strings.title} collapse={true} infoText={strings.infoText}>{
+            matches?<>
+                    {incomes?incomes.slice(0).reverse().map(income =>
+                            <IncomeDashboardItem
+                                title={income.title}
+                                id={income._id}
+                                icon={income.icon}
+                                balance={income.balance}
+                                currency={income.currency}
+                                color={income.color}
+                                key={income._id}
+                                type='incomes'/>
+                        ):null}
+                    <AddIncomeForm/>
+                </>
+            :<>
+                {incomes?incomes.slice(0).reverse().map(income =>
+                    <IncomeDashboardCard
+                        isWide={isWide}
+                        title={income.title}
+                        id={income._id}
+                        icon={income.icon}
+                        balance={income.balance}
+                        currency={income.currency}
+                        color={income.color}
+                        key={income._id}
+                        type='incomes'/>
+                ):null}
+            </>
+        }</SectionLayout>
         :<Spinner/>
     )
 }

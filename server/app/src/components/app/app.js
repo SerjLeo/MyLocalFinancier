@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-
 //custom scrollbar
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';

@@ -40,10 +40,10 @@ const LandingPage = ({isAuthenticated, strings}) => {
             </div>
             <div className="welcome-container__button">
                 <CustomLink to='/login' style={{margin: 10}}>
-                    <Button variant="contained" color="primary">{strings.loginBtn}</Button>
+                    <Button variant="contained" color="primary" disableElevation>{strings.loginBtn}</Button>
                 </CustomLink>
                 <CustomLink to='/register' style={{margin: 10}}>
-                    <Button variant="contained" color="primary">{strings.registerBtn}</Button>
+                    <Button variant="contained" color="primary" disableElevation>{strings.registerBtn}</Button>
                 </CustomLink>
             </div>
         </PageLayout>

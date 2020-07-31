@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth')
 const {check} = require('express-validator');
-const {userAuth, userRegister, userFind, userConfirm} = require('../../controllers/auth.controller')
+const {userAuth, userRegister, userFind, userConfirm} = require('../../controllers/auth')
 
 // @route  GET api/auth
 // @desc   Find and return user data

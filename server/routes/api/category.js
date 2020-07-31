@@ -6,7 +6,7 @@ const {
     addCategory,
     getCategories,
     createDefaultCategories
-} = require('../../controllers/categoryController')
+} = require('../../controllers/category')
 const {check} = require('express-validator')
 const auth = require('../../middleware/auth')
 

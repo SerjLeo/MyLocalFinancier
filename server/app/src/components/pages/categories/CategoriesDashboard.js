@@ -9,10 +9,12 @@ import Spinner from '../../layout/Spinner'
 import SectionLayout from '../../layout/SectionLayout'
 import WithTranslation from '../../translation/withTranslationHOC'
 //Material-UI
-import DashboardListItem from '../../helpers/DashboardListItem'
+import CategoryDashboardItem from './CategoryDashboardItem'
+import CategoryDashboardCard from "./CategoryDashboardCard";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const CategoriesDashboard = ({categories, getCategories, loading, strings}) => {
-    
+    const matches = useMediaQuery('(min-width:620px)');
     useEffect(()=>{
         getCategories()
     },[])
@@ -24,20 +26,31 @@ const CategoriesDashboard = ({categories, getCategories, loading, strings}) => {
     }
 
     return (categories?
-        <SectionLayout title={strings.title}>
-            <Info text={strings.infoText}/>
-            {categories?categories.slice(0).reverse().map(category => 
-            <DashboardListItem 
-                name={category.title}
-                icon={category.icon}
-                balance={category.balance}
-                color={category.color}
-                key={category._id}
-                id={category._id}
-                type='categories'
-            />):null}
-            <AddCategory/>        
-        </SectionLayout>
+        <SectionLayout title={strings.title} collapse={true} infoText={strings.infoText}>{
+            matches?<>
+                    {categories?categories.slice(0).reverse().map(category =>
+                        <CategoryDashboardItem
+                            title={category.title}
+                            id={category._id}
+                            icon={category.icon}
+                            color={category.color}
+                            key={category._id}
+                        />
+                    ):null}
+                    <AddCategory/>
+                </>
+                :<>
+                    {categories?categories.slice(0).reverse().map(category =>
+                        <CategoryDashboardCard
+                            title={category.title}
+                            id={category._id}
+                            icon={category.icon}
+                            color={category.color}
+                            key={category._id}
+                        />
+                    ):null}
+                </>
+        }</SectionLayout>
         :<Spinner/>
     )
 }

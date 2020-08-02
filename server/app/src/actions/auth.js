@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-    REGISTER_SUCCSESS,
+    REGISTER_SUCCESS,
     REGISTER_FAILED,
     USER_LOADED,
     AUTH_ERROR,
@@ -53,7 +53,7 @@ export const register = ({name, email, password}) => async dispatch => {
         const res = await axios.post('/api/auth/register', body, config);
         if(res.status === 200) {
             dispatch({
-                type: REGISTER_SUCCSESS
+                type: REGISTER_SUCCESS
             })
             dispatch(setAlert(res.data.message, 'success', 10000));
         }

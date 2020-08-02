@@ -33,7 +33,7 @@ const system = (state = initialState, action) => {
         case CLEAR_FINANCE:
             return {
                 ...state,
-                exchangeRate: {},
+                exchangeRate: null,
                 loading: true
             }
         default:

@@ -1,5 +1,5 @@
 import {
-    REGISTER_SUCCSESS,
+    REGISTER_SUCCESS,
     REGISTER_FAILED,
     USER_LOADED,
     AUTH_ERROR,
@@ -22,7 +22,7 @@ const auth = (state = initialState, action) => {
     const {type, payload} = action;
 
     switch(type) {
-        case REGISTER_SUCCSESS:
+        case REGISTER_SUCCESS:
         case CONFIRMATION_NEEDED:
         case CONFIRMATION_SUCCESS:
             return {

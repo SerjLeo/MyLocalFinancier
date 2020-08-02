@@ -3,13 +3,13 @@ import {
     SYSTEM_ERROR,
     SET_LANGUAGE
 } from './types';
-import financeService from '../services/financeService'
+import FinanceService from '../services/FinanceService'
 
-const finService = new financeService();
+const financeService = new FinanceService();
 // Get exchange course
 export const getRate = () => dispatch => {
-    finService.getServerData()
-        .then(resp => finService.getExchangeRates(resp))
+    financeService.getServerData()
+        .then(resp => financeService.getExchangeRates(resp))
         .then(rates => dispatch({
                 type: GET_EXCHANGE_RATE,
                 payload: rates

@@ -1,4 +1,4 @@
-import FinanceService from './financeService'
+import FinanceService from './FinanceService'
 
 const financeService = new FinanceService
 

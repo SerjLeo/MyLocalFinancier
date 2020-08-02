@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import {makeStyles} from '@material-ui/core/styles';
 
-import {getProfile, loadUser, getRate} from '../../../actions';
+import {getProfile, loadUser} from '../../../actions';
 import Spinner from '../../layout/Spinner';
 import IncomeDashboard from '../incomes/IncomeDashboard';
 import CategoriesDashboard from '../categories/CategoriesDashboard';
@@ -14,13 +14,15 @@ import AddExpense from '../expenses/AddExpense';
 import LastTransactions from '../expenses/LastTransactions'
 
 import PageLayout from '../../layout/PageLayout';
+import ExchangeRates from "./ExchangeRates";
+import SectionLayout from "../../layout/SectionLayout";
 
 const useStyles = makeStyles(theme => ({
     gridItem: {
         height: '100%'
     },
     sidePanel: {
-        backgroundColor: 'red',
+        height: '100%',
         [theme.breakpoints.down('xs')]: {
             display: 'none'
         }
@@ -28,8 +30,9 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-const Dashboard = ({exchangeRate, loadUser, auth: {user, loading}}) => {
+const Dashboard =  ({loadUser, auth: {user, loading}}) => {
     const styles = useStyles()
+
     useEffect(()=>{
         if(!user) {
             loadUser();
@@ -50,7 +53,9 @@ const Dashboard = ({exchangeRate, loadUser, auth: {user, loading}}) => {
                     <CategoriesDashboard/>
                 </Grid>
                 <Grid item className={styles.sidePanel} sm={4} md={4}>
-                    Hello_2
+                    <SectionLayout noPadding>
+                        <ExchangeRates/>
+                    </SectionLayout>
                 </Grid>
             </Grid>
         </PageLayout>
@@ -64,7 +69,6 @@ Dashboard.propTypes = {
 }
 const mapStateToProps = (state) => ({
     profile: state.profile,
-    auth: state.auth,
-    exchangeRate: state.system.exchangeRate
+    auth: state.auth
 })
-export default connect(mapStateToProps, {getProfile, loadUser, getRate})(Dashboard);
+export default connect(mapStateToProps, {getProfile, loadUser})(Dashboard);

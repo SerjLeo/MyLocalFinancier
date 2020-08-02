@@ -4,16 +4,16 @@ import {connect} from 'react-redux';
 import {addIncome} from '../../../../actions'
 import Form from '../../../helpers/Form'
 import AddIcon from '@material-ui/icons/Add';
-import PopoverFabLayout from '../../../layout/PopoverFabLayout'
+import PopoverButtonLayout from '../../../layout/PopoverButtonLayout'
 
-const AddIncomeForm = ({options, addIncome}) => {
+const AddIncomeForm = ({addIncome}) => {
     const [formData, setFormData] = React.useState({
         title: '',
         type: '',
         balance: 0,
         color:'',
         icon:'',
-        currency: (options?options.mainCurrency:'USD')
+        currency: 'RUB'
     });
     const {title, type, balance, currency} = formData;
     
@@ -156,11 +156,11 @@ const AddIncomeForm = ({options, addIncome}) => {
             balance: 0,
             color:'',
             icon:'',
-            currency: (options?options.mainCurrency:'USD')
+            currency: 'RUB'
         });
     }
 
-    return  <PopoverFabLayout buttonText='Add income' icon={AddIcon}>
+    return  <PopoverButtonLayout icon={AddIcon}>
                 <Form
                     fields={fields}
                     type='income'
@@ -168,15 +168,11 @@ const AddIncomeForm = ({options, addIncome}) => {
                     onChange={handleChange}
                     direction='column'
                 />
-            </PopoverFabLayout>
+            </PopoverButtonLayout>
 }
-
-const mapStateToProps = state => ({
-    options: state.profile.options
-})
 
 AddIncomeForm.propTypes = {
     addIncome: PropTypes.func
 }
 
-export default connect(mapStateToProps, {addIncome})(AddIncomeForm);
+export default connect(null, {addIncome})(AddIncomeForm);

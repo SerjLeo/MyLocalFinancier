@@ -5,6 +5,8 @@ import {CustomLink} from '../utils/CustomLink'
 import {makeStyles} from '@material-ui/core/styles';
 import WithTranslation from '../translation/withTranslationHOC'
 import getCategoriesIcon from '../layout/Icons/categoriesIcons';
+import ColorPicker from "./ColorPicker";
+import IconPicker from "./IconPicker";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -89,35 +91,27 @@ const Form = ({
                                             </FormControl>
                                         </Grid>
                             case 'iconSelect':
-                                return <Grid item xs={xs} sm={sm} md={md} lg={lg} key={index}>
-                                            <FormControl fullWidth>
-                                                <InputLabel htmlFor="type-simple">{label}</InputLabel>
-                                                <Select
-                                                value={field.value}
-                                                name={field.name}
-                                                onChange={e => onChange(e)}
-                                                >
-                                                {field.menuItems.map(item => <MenuItem style={{justifyContent: 'center'}} key={item._id} value={item.value}>
-                                                    {getCategoriesIcon(item.value)()}
-                                                </MenuItem>)}
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
+                                return <IconPicker
+                                    field={field}
+                                    label={label}
+                                    xs={xs}
+                                    sm={sm}
+                                    md={md}
+                                    lg={lg}
+                                    onChange={onChange}
+                                    key={index}
+                                />
                             case 'colorSelect':
-                                return <Grid item xs={xs} sm={sm} md={md} lg={lg} key={index}>
-                                            <FormControl fullWidth>
-                                                <InputLabel htmlFor="type-simple">{label}</InputLabel>
-                                                <Select
-                                                value={field.value}
-                                                name={field.name}
-                                                onChange={e => onChange(e)}
-                                                >
-                                                {field.menuItems.map(item => <MenuItem key={item._id} value={item.value}>
-                                                    <div style={{backgroundColor: item.value, width:'100%', height:'30px'}}/>
-                                                </MenuItem>)}
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
+                                return <ColorPicker
+                                    field={field}
+                                    label={label}
+                                    xs={xs}
+                                    sm={sm}
+                                    md={md}
+                                    lg={lg}
+                                    onChange={onChange}
+                                    key={index}
+                                />
                             case 'textInput':
                                 return <Grid item xs={xs} sm={sm} md={md} lg={lg} key={index}>
                                             <TextField

@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import Form from '../../../helpers/Form'
 import {connect} from 'react-redux'
-import {updateIncome, addExpense, setAlert} from '../../../../actions'
-import FinanceService from '../../../../services/financeService'
+import {updateIncome, setAlert} from '../../../../actions'
+import FinanceService from '../../../../services/FinanceService'
 
-const AddExpenseForm = ({income, categories, addExpense, exchangeRates, updateIncome, setAlert}) => {
+const AddExpenseForm = ({income, categories, exchangeRates, updateIncome, setAlert}) => {
     
     const [formData, setFormData] = useState({
         title: '',
@@ -46,8 +46,7 @@ const AddExpenseForm = ({income, categories, addExpense, exchangeRates, updateIn
                 currency: currency,
                 exchangeRate: newAmount.rate
             }
-            
-            await addExpense(newExpence, 'income');
+
             await updateIncome(income._id, newBalance);
         }
         
@@ -114,4 +113,4 @@ const AddExpenseForm = ({income, categories, addExpense, exchangeRates, updateIn
 }
 
 
-export default connect(null, {addExpense, updateIncome, setAlert})(AddExpenseForm)
+export default connect(null, {updateIncome, setAlert})(AddExpenseForm)

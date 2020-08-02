@@ -6,7 +6,6 @@ import { compose } from 'redux'
 //Material-UI
 import {getIncomes} from '../../../actions'
 import AddIncomeForm from './incomeHelpers/AddIncomeForm';
-import Info from '../../helpers/Info'
 import IncomeDashboardItem from './IncomeDashboardItem';
 import Spinner from '../../layout/Spinner'
 import SectionLayout from '../../layout/SectionLayout'
@@ -29,7 +28,7 @@ const IncomeDashboard = ({incomes, getIncomes, loading, strings}) => {
     }
 
     return (incomes
-        ?<SectionLayout title={strings.title} collapse={true} infoText={strings.infoText}>{
+        ?<SectionLayout title={strings.title} collapse={true} infoText={strings.infoText} addForm={AddIncomeForm}>{
             matches?<>
                     {incomes?incomes.slice(0).reverse().map(income =>
                             <IncomeDashboardItem
@@ -41,8 +40,8 @@ const IncomeDashboard = ({incomes, getIncomes, loading, strings}) => {
                                 color={income.color}
                                 key={income._id}
                                 type='incomes'/>
-                        ):null}
-                    <AddIncomeForm/>
+                        ):null
+                    }
                 </>
             :<>
                 {incomes?incomes.slice(0).reverse().map(income =>
@@ -56,7 +55,8 @@ const IncomeDashboard = ({incomes, getIncomes, loading, strings}) => {
                         color={income.color}
                         key={income._id}
                         type='incomes'/>
-                ):null}
+                    ):null
+                }
             </>
         }</SectionLayout>
         :<Spinner/>

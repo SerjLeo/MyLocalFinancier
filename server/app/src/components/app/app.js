@@ -8,8 +8,7 @@ import Footer from '../footer/Footer';
 import {
     LandingPage,
     Dashboard,
-    Profile,
-    CreateProfile,
+    Settings,
     AllTransactions,
     IncomeCatalog,
     Analytics,
@@ -61,8 +60,7 @@ const App = ({loadUser}) => {
                         <Route exact path='/register' component={Register}/>
                         <Route exact path='/login' component={Login}/>
                         <PrivateRoute exact path='/dashboard' component={Dashboard}/>
-                        <PrivateRoute exact path='/profile' component={Profile}/>
-                        <PrivateRoute exact path='/createprofile' component={CreateProfile}/>
+                        <PrivateRoute exact path='/settings' component={Settings}/>
                         <PrivateRoute exact path='/expenses' component={AllTransactions}/>
                         <PrivateRoute exact path='/incomes' component={IncomeCatalog}/>
                         <PrivateRoute exact path='/categories' component={CategoriesToolbar}/>

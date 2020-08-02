@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import Form from '../../../helpers/Form'
 import {connect} from 'react-redux'
-import {updateIncome, addDeposit, getRate, setAlert} from '../../../../actions'
-import FinanceService from '../../../../services/financeService'
+import {updateIncome, getRate, setAlert} from '../../../../actions'
+import FinanceService from '../../../../services/FinanceService'
 
 const AddDepositForm = ({income, addDeposit, exchangeRates, updateIncome, setAlert}) => {
     
@@ -34,13 +34,6 @@ const AddDepositForm = ({income, addDeposit, exchangeRates, updateIncome, setAle
             exchangeRates.USDrate
         )
         .then(res => {
-            addDeposit({
-                amount: parseFloat(realAmount.toFixed(2)),
-                income: income._id,
-                currency,
-                icon: income.icon,
-                exchangeRate: res.rate
-            })
             return res.value
         })
         .then(res => financeService.calcBalance(income.balance, res, true))
@@ -94,4 +87,4 @@ const AddDepositForm = ({income, addDeposit, exchangeRates, updateIncome, setAle
     )
 }
 
-export default connect(null, {updateIncome, addDeposit, setAlert})(AddDepositForm)
+export default connect(null, {updateIncome, setAlert})(AddDepositForm)

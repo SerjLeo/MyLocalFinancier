@@ -2,8 +2,6 @@ import React from 'react'
 import {Fab, Popover, Typography, makeStyles} from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
-    pageContainer: theme.commonStyles.pageContainer,
-    pageWrapper: theme.commonStyles.pageWrapper,
     fabContainer: {
         width: 80,
         height:"100%",
@@ -15,7 +13,10 @@ const useStyles = makeStyles(theme => ({
     subtitle: {
         fontSize: 12,
         marginTop: 5,
-        fontWeight: 500
+        fontWeight: 500,
+        maxWidth: 80,
+        overflow: "hidden",
+        textOverflow: "ellipsis"
     }
 }))
 
@@ -34,6 +35,7 @@ const PopoverFabLayout = ({children, icon, buttonText}) => {
     }
     const open = Boolean(anchorEl);
     const Icon = icon;
+
     return (
         <div className={classes.fabContainer} key='create-button'>
             <Fab color="primary" aria-label="add" style={{outline:'none', boxShadow:'none'}} onClick={e => handleClick(e)}>

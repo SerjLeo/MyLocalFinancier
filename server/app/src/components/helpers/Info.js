@@ -11,7 +11,6 @@ const useStyles = makeStyles(theme=>({
         height: 20,
         display: 'block',
         margin: 5,
-        position: 'absolute',
         right: 15,
         top: 15
     },

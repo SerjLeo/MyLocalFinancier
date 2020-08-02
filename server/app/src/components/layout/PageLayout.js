@@ -2,7 +2,7 @@ import React from 'react'
 import {Container, Paper, makeStyles} from '@material-ui/core'
 
 const useStyles = makeStyles(theme => {
-    console.log(theme)
+
     return {
         pageContainer: theme.commonStyles.pageContainer,
         pageWrapper: theme.commonStyles.pageWrapper

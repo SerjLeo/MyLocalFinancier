@@ -18,7 +18,7 @@ const DashboardListItem = ({title, icon, color, id}) => {
             <Fab aria-label="add" style={{outline:'none', boxShadow:'none', backgroundColor: color, color:"#f7f7f7"}} onClick={() => setRedirect(true)}>
                 {Icon}
             </Fab>
-            <div className="subtitle" style={{fontSize:'12px', marginTop:'5px', fontWeight: '500'}}>{title}</div>
+            <div className="subtitle" style={{fontSize:'12px', marginTop:'5px', textAlign:'center', fontWeight: '500', maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{title}</div>
         </div>
     )
 }

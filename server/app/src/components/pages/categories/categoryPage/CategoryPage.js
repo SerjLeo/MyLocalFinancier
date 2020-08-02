@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import PageLayout from '../../../layout/PageLayout'
 import Spinner from '../../../layout/Spinner'
 import {connect} from 'react-redux'
-import {getRate, getIncomes, getExpensesByCategory, getCategoryByID} from '../../../../actions'
+import {getRate, getIncomes, getCategoryByID} from '../../../../actions'
 // import ExpenseCatalog from './ExpenseCatalog'
 // import DepositCatalog from './DepositCatalog'
 // import IncomeToolbar from './IncomeToolbar'
@@ -42,7 +42,6 @@ const CategoryPage = props => {
     const id = props.match.params.categoryID
     const {
       getCategoryByID,
-      getExpensesByCategory,
       getRate,
       exchangeRates,
       category,
@@ -58,7 +57,6 @@ const CategoryPage = props => {
     useEffect(() => {
         getCategoryByID(id)
         getIncomes()
-        getExpensesByCategory(id)
         getRate()
     },[])
     if(categoryLoading && expenseLoading) {
@@ -115,4 +113,4 @@ const mapStateToProps = state => ({
     exchangeRates: state.system.exchangeRate
 })
 
-export default connect(mapStateToProps, {getCategoryByID, getIncomes, getRate, getExpensesByCategory})(CategoryPage)
+export default connect(mapStateToProps, {getCategoryByID, getIncomes, getRate})(CategoryPage)

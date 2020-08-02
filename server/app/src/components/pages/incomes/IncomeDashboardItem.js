@@ -22,7 +22,7 @@ const DashboardListItem = ({title, icon, balance, currency, color, id}) => {
                 {Icon}
             </Fab>
             <div className="subtitle" style={{fontSize:'12px', marginTop:'5px', fontWeight: '500'}}>{title}</div>
-            {balance?<div className="subtitle" style={{fontSize:'12px', marginTop:'5px', fontWeight: '500'}}>{balance.toFixed(2)}{' '}{currency}</div>:null}
+            {balance?<div className="subtitle" style={{fontSize:'12px', marginTop:'5px', fontWeight: '500', maxWidth: '80px', overflow:'hidden', textOverflow: 'ellipsis'}}>{balance.toFixed(2)}{' '}{currency}</div>:null}
         </div>
     )
 }

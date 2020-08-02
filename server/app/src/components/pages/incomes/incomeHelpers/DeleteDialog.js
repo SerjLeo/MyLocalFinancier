@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import {Paper, Dialog, Switch, DialogTitle, Container, Grid, Button, Typography} from '@material-ui/core';
-import {deleteRelatedDeposits, deleteRelatedExpenses, deleteIncome} from '../../../../actions'
+import {deleteIncome} from '../../../../actions'
 
-function DeleteIncomeDialog({id, onClose, open, deleteRelatedDeposits, deleteIncome, deleteRelatedExpenses}) {
+function DeleteIncomeDialog({id, onClose, open, deleteIncome}) {
   const [state, setState] = React.useState({
       deleteDeposits: false,
       deleteExpenses: false,
@@ -104,4 +104,4 @@ function DeleteIncomeDialog({id, onClose, open, deleteRelatedDeposits, deleteInc
 //   selectedValue: PropTypes.string.isRequired,
 // };
 
-export default connect(null, {deleteRelatedDeposits, deleteRelatedExpenses, deleteIncome})(DeleteIncomeDialog)
+export default connect(null, {deleteIncome})(DeleteIncomeDialog)

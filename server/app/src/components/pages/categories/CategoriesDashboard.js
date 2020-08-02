@@ -15,6 +15,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const CategoriesDashboard = ({categories, getCategories, loading, strings}) => {
     const matches = useMediaQuery('(min-width:620px)');
+    const isWide = useMediaQuery('(min-width:440px)');
     useEffect(()=>{
         getCategories()
     },[])
@@ -26,7 +27,7 @@ const CategoriesDashboard = ({categories, getCategories, loading, strings}) => {
     }
 
     return (categories?
-        <SectionLayout title={strings.title} collapse={true} infoText={strings.infoText}>{
+        <SectionLayout title={strings.title} collapse={true} infoText={strings.infoText} addForm={AddCategory}>{
             matches?<>
                     {categories?categories.slice(0).reverse().map(category =>
                         <CategoryDashboardItem
@@ -36,19 +37,21 @@ const CategoriesDashboard = ({categories, getCategories, loading, strings}) => {
                             color={category.color}
                             key={category._id}
                         />
-                    ):null}
-                    <AddCategory/>
+                        ):null
+                    }
                 </>
                 :<>
                     {categories?categories.slice(0).reverse().map(category =>
                         <CategoryDashboardCard
+                            isWide={isWide}
                             title={category.title}
                             id={category._id}
                             icon={category.icon}
                             color={category.color}
                             key={category._id}
                         />
-                    ):null}
+                        ):null
+                    }
                 </>
         }</SectionLayout>
         :<Spinner/>

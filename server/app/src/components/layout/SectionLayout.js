@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignContent: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        paddingTop: 10
     },
     section: {
         padding: 20,
@@ -31,31 +32,50 @@ const useStyles = makeStyles(theme => ({
         marginTop: 10,
         marginBottom: 10
     },
+    header: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        textAlign: "center"
+    },
+    toolbar: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center"
+    }
 }))
 
-const SectionLayout = ({children, title, infoText, collapse = false}) => {
+const SectionLayout = ({children, title, infoText, collapse = false, addForm, noPadding = false}) => {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+    const AddForm = addForm
     return (
         <Paper className={classes.section}>
-            {title?<Typography variant="h5" className={classes.title}>{title}</Typography>:null}
-            <Info text={infoText}/>
-            {collapse?<>
-                <IconButton
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                >
-                    <ExpandMoreIcon />
-                </IconButton>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <div className={classes.content}>{children}</div>
-                </Collapse>
-            </>
-            :<div className={classes.content}>{children}</div>
+            <div className={classes.header}>
+                {title?<Typography variant="h5" style={{padding: '0 10px'}} className={classes.title}>{title}</Typography>:null}
+                <div className={classes.toolbar}>
+                    {addForm?<AddForm/>:null}
+                    {collapse?
+                        <IconButton
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more"
+                        >
+                            <ExpandMoreIcon />
+                        </IconButton>:null
+                    }
+                    {infoText?<Info text={infoText}/>:null}
+                </div>
+            </div>
+            {collapse?
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <div className={classes.content} style={{padding: noPadding?0:null}}>{children}</div>
+            </Collapse>
+            :<div className={classes.content} style={{padding: noPadding?0:null}}>{children}</div>
         }</Paper>
     )
 }

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import PageLayout from '../../../layout/PageLayout'
 import Spinner from '../../../layout/Spinner'
 import {connect} from 'react-redux'
-import {getIncomeByID, getRate, getExpensesByIncome, getDepositsByIncome, getCategories} from '../../../../actions'
+import {getIncomeByID, getRate, getCategories} from '../../../../actions'
 import ExpenseCatalog from './ExpenseCatalog'
 import DepositCatalog from './DepositCatalog'
 import IncomeToolbar from './IncomeToolbar'
@@ -42,11 +42,9 @@ const IncomePage = props => {
     const id = props.match.params.incomeID
     const {
       getIncomeByID,
-      getExpensesByIncome,
       getRate,
       categories,
       exchangeRates,
-      getDepositsByIncome,
       income,
       getCategories,
       expenses,
@@ -55,14 +53,12 @@ const IncomePage = props => {
       incomeLoading,
       expenseLoading
     } = props
-    
+
     const classes = useStyles()
 
     useEffect(() => {
         getIncomeByID(id)
         getCategories()
-        getExpensesByIncome(id)
-        getDepositsByIncome(id)
         getRate()
     },[])
     if(incomeLoading && expenseLoading && depositsLoading) {
@@ -75,13 +71,13 @@ const IncomePage = props => {
                     <Grid item md={6} sm={12} className={classes.leftSide}>
                         <span style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
                             <Typography variant='h4'>{income.title}</Typography>
-                            <Typography variant='h4'>{income.balance} {income.currency === 'RUB'?'₽':income.currency === 'EUR'?'€':'$'}</Typography>                         
+                            <Typography variant='h4'>{income.balance} {income.currency === 'RUB'?'₽':income.currency === 'EUR'?'€':'$'}</Typography>
                         </span>
                         <span style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
                             <Typography variant='subtitle1'>{income.type}</Typography>
                             <IncomeToolbar id={id} />
                         </span>
-                        
+
                         {income && exchangeRates?<IncomeTabs exchangeRates={exchangeRates} income={income} categories={categories}/>:null}
                         <Grid container>
                             {depositsLoading
@@ -114,10 +110,8 @@ const mapStateToProps = state => ({
     expenseLoading: state.expense.loading,
     depositsLoading: state.deposit.loading,
     income: state.income.activeIncome,
-    deposits: state.deposit.incomeDeposits,
-    expenses: state.expense.expensesByIncome,
     categories: state.category.categories,
     exchangeRates: state.system.exchangeRate
 })
 
-export default connect(mapStateToProps, {getIncomeByID, getCategories, getDepositsByIncome, getRate, getExpensesByIncome})(IncomePage)
+export default connect(mapStateToProps, {getIncomeByID, getCategories, getRate})(IncomePage)

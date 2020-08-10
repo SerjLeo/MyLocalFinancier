@@ -9,8 +9,7 @@ import Spinner from '../../layout/Spinner';
 import IncomeDashboard from '../incomes/IncomeDashboard';
 import CategoriesDashboard from '../categories/CategoriesDashboard';
 import Widgets from './Widgets'
-import Welcome from './Welcome';
-import AddExpense from '../expenses/AddExpense';
+import AddTransaction from '../Transactions/AddTransaction';
 import LastTransactions from '../expenses/LastTransactions'
 
 import PageLayout from '../../layout/PageLayout';
@@ -51,6 +50,7 @@ const Dashboard =  ({loadUser, auth: {user, loading}}) => {
                     <Widgets/>
                     <IncomeDashboard/>
                     <CategoriesDashboard/>
+                    <AddTransaction/>
                 </Grid>
                 <Grid item className={styles.sidePanel} sm={4} md={4}>
                     <SectionLayout noPadding>
@@ -63,9 +63,7 @@ const Dashboard =  ({loadUser, auth: {user, loading}}) => {
 }
 
 Dashboard.propTypes = {
-    getProfile: PropTypes.func.isRequired,
-    profile: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired
 }
 const mapStateToProps = (state) => ({
     profile: state.profile,

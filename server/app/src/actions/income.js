@@ -136,6 +136,8 @@ export const updateIncome = (id, balance) => async dispatch => {
             type: UPDATE_INCOME,
             payload: res.data
         })
+
+        return res.data
     } catch (err) {
 
         const errors = err.response.data.errors;

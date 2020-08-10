@@ -58,6 +58,16 @@ export default {
             backButtonText: 'Back'
         }
     },
+    AddTransactionForm: {
+        titleText: "Add transaction",
+        buttonText: "Add",
+        income: 'Income',
+        title: 'Title',
+        amount: 'Amount',
+        category: 'Category',
+        currency: 'Currency',
+        currentBalance: 'Balance:'
+    },
     LandingPage: {
         loginBtn: 'Login',
         registerBtn: 'Register',
@@ -86,7 +96,7 @@ export default {
     Welcome: {
         greetings: 'Welcome, '
     },
-    AddExpense: {
-        title: 'Add expense'
+    AddTransaction: {
+        title: 'Add transaction'
     }
 };

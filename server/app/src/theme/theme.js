@@ -60,6 +60,13 @@ const theme = createMuiTheme({
             lg: 1280,
             xl: 1920
         }
+    },
+    overrides: {
+        MuiSelect: { // Name of the component ⚛️ / style sheet
+            select: { // Name of the rule
+                padding: 0, // Some CSS
+            }
+        }
     }
 });
 

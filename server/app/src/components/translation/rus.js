@@ -16,12 +16,6 @@ export default {
           password_2: 'Подтвердите пароль',
           redirectText: "У Вас уже есть аккаунт? Войти"
         },
-        deposit: {
-          titleText: "Пополнить счет",
-          buttonText: "Пополнить",
-          amount: 'Сумма',
-          currency: 'Валюта'
-        },
         income: {
           titleText: "Добавить счет",
           buttonText: "Добавить",
@@ -38,15 +32,6 @@ export default {
           color: 'Цвет',
           description: 'Описание'
         },
-        expense: {
-          titleText: "Добавить списание",
-          buttonText: "Добавить",
-          income: 'Счет',
-          title: 'Название',
-          amount: 'Сумма',
-          currency: 'Валюта',
-          category: 'Категория'
-        },
         profile: {
           titleText: "Настройки профиля",
           buttonText: "Сохранить",
@@ -57,6 +42,16 @@ export default {
           mainCurrency: 'Основная валюта',
           backButtonText: 'Назад'
         }
+    },
+    AddTransactionForm: {
+        titleText: "Добавить транзакцию",
+        buttonText: "Добавить",
+        income: 'Счет',
+        title: 'Название',
+        amount: 'Сумма',
+        category: 'Категория',
+        currency: 'Валюта',
+        currentBalance: 'Средств на счете:'
     },
     LandingPage: {
       loginBtn: 'Войти',
@@ -86,7 +81,7 @@ export default {
   Welcome: {
     greetings: 'Добро пожаловать, '
   },
-  AddExpense: {
-    title: 'Добавить расход'
+  AddTransaction: {
+    title: 'Добавить транзакцию'
   }
 };

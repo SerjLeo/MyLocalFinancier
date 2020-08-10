@@ -1,10 +1,9 @@
 import React from 'react'
 
-import {TextField, Paper, Grid, Button, Typography, FormControl, InputLabel, MenuItem, Select} from '@material-ui/core';
+import {TextField, Paper, Grid, Button, Typography, FormControl, Switch, InputLabel, MenuItem, Select} from '@material-ui/core';
 import {CustomLink} from '../utils/CustomLink'
 import {makeStyles} from '@material-ui/core/styles';
 import WithTranslation from '../translation/withTranslationHOC'
-import getCategoriesIcon from '../layout/Icons/categoriesIcons';
 import ColorPicker from "./ColorPicker";
 import IconPicker from "./IconPicker";
 
@@ -112,6 +111,14 @@ const Form = ({
                                     onChange={onChange}
                                     key={index}
                                 />
+                            case 'switch':
+                                return <Grid item xs={xs} sm={sm} md={md} lg={lg} key={index}>
+                                    <Switch
+                                        value={field.value}
+                                        name={field.name}
+                                        onChange={e => onChange(e)}
+                                    />
+                                </Grid>
                             case 'textInput':
                                 return <Grid item xs={xs} sm={sm} md={md} lg={lg} key={index}>
                                             <TextField

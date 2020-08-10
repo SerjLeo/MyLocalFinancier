@@ -28,7 +28,7 @@ const IncomeDashboard = ({incomes, getIncomes, loading, strings}) => {
     }
 
     return (incomes
-        ?<SectionLayout title={strings.title} collapse={true} infoText={strings.infoText} addForm={AddIncomeForm}>{
+        ?<SectionLayout title={strings.title} interfaceName={'incomeDashboard'} collapse={true} infoText={strings.infoText} addForm={AddIncomeForm}>{
             matches?<>
                     {incomes?incomes.slice(0).reverse().map(income =>
                             <IncomeDashboardItem

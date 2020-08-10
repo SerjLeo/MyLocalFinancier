@@ -84,6 +84,10 @@ const AddCategory = ({addCategory}) => {
             type: 'colorSelect',
             menuItems: [
                 {
+                    value: '#af393f',
+                    _id: 16
+                },
+                {
                     value: '#ff6262',
                     _id: 1
                 },
@@ -138,12 +142,10 @@ const AddCategory = ({addCategory}) => {
                 {
                     value: '#e784be',
                     _id: 14
-                },{
+                },
+                {
                     value: '#976dde',
                     _id: 15
-                },{
-                    value: '#af393f',
-                    _id: 16
                 }
             ]
         },

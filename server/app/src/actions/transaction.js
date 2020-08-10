@@ -26,7 +26,7 @@ export const addTransaction = (formData) => async dispatch => {
             }
         }
 
-        const res = await axios.put('/api/transaction', formData, config);
+        const res = await axios.post('/api/transaction', formData, config);
 
         dispatch({
             type: ADD_TRANSACTION,
@@ -34,6 +34,7 @@ export const addTransaction = (formData) => async dispatch => {
         })
 
         dispatch(setAlert('Transaction added', 'success'))
+
     } catch (err) {
         const errors = err.response.data.errors;
 

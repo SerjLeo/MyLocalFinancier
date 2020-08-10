@@ -4,6 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Collapse from '@material-ui/core/Collapse';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Info from "../helpers/Info";
+import InterfaceStateService from "../../services/interfaceStateService";
 
 const useStyles = makeStyles(theme => ({
     title: {
@@ -46,10 +47,19 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const SectionLayout = ({children, title, infoText, collapse = false, addForm, noPadding = false}) => {
+const SectionLayout = ({children, interfaceName, title, infoText, collapse = false, addForm, noPadding = false}) => {
     const classes = useStyles();
+    const interfaceStateService = new InterfaceStateService()
     const [expanded, setExpanded] = React.useState(false);
+    React.useEffect(() => {
+        if(interfaceName) {
+            setExpanded(interfaceStateService.getProperty(interfaceName))
+        }
+    })
     const handleExpandClick = () => {
+        if(interfaceName) {
+            interfaceStateService.setProperty(interfaceName, !expanded)
+        }
         setExpanded(!expanded);
     };
     const AddForm = addForm

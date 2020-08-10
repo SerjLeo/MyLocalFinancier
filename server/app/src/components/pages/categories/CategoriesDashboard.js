@@ -27,7 +27,7 @@ const CategoriesDashboard = ({categories, getCategories, loading, strings}) => {
     }
 
     return (categories?
-        <SectionLayout title={strings.title} collapse={true} infoText={strings.infoText} addForm={AddCategory}>{
+        <SectionLayout title={strings.title} interfaceName={'categoryDashboard'} collapse={true} infoText={strings.infoText} addForm={AddCategory}>{
             matches?<>
                     {categories?categories.slice(0).reverse().map(category =>
                         <CategoryDashboardItem

@@ -41,6 +41,7 @@ const AddTransactionForm = ({
     categories,
     title,
     amount,
+    loading = true,
     strings
   }) => {
     const classes = useStyles();
@@ -98,6 +99,7 @@ const AddTransactionForm = ({
                 <Button
                     type="submit"
                     fullWidth
+                    disabled={loading}
                     variant="outlined"
                     color="primary"
                     className={classes.submit}
@@ -109,9 +111,3 @@ const AddTransactionForm = ({
 }
 
 export default WithTranslation(AddTransactionForm)
-//
-// const label = Object.entries(strings).filter(item => item[0] === field.name).reduce((flattenArray, element) => {
-//     return Array.isArray(element)
-//         ? [...flattenArray, ...element]
-//         : [...flattenArray, element]
-// },[])[1]

@@ -19,6 +19,7 @@ const AddTransaction = ({categories, addTransaction, incomes, strings, setAlert,
         category: '',
         type: false
     });
+    const [loading, setLoading] = React.useState(false)
     const {title, amount, income, category, type} = formData;
 
     const handleChange = e => {
@@ -37,9 +38,10 @@ const AddTransaction = ({categories, addTransaction, incomes, strings, setAlert,
 
     const handleSubmit = async e => {
         e.preventDefault();
+        setLoading(true)
         try {
-            const realAmount = Math.abs(finService.convertToFloat(amount))
-            const newBalance = await finService.calcBalance(income.balance, realAmount, type);
+            const realAmount = finService.convertToFloat(amount)
+            const newBalance = finService.calcBalance(income.balance, realAmount, type);
 
             const newTransaction = {
                 title: title,
@@ -52,13 +54,13 @@ const AddTransaction = ({categories, addTransaction, incomes, strings, setAlert,
 
             await addTransaction(newTransaction);
             const updatedIncome = await updateIncome(income._id, newBalance);
-
+            setLoading(false)
             setFormData({
                 ...formData,
                 income: updatedIncome
             })
         } catch(err) {
-            setAlert(err, 'warning')
+            setAlert(err.message, 'warning')
         }
 
     }
@@ -73,6 +75,7 @@ const AddTransaction = ({categories, addTransaction, incomes, strings, setAlert,
                 category={category}
                 amount={amount}
                 title={title}
+                loading={loading}
             />
         </SectionLayout>
         :null

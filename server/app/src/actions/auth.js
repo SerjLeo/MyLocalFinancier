@@ -87,7 +87,7 @@ export const confirmEmail = id => async dispatch => {
     
     try {
         const res = await axios.get(`/api/auth/confirm/${id}`, config)
-        console.log(res);
+
         if (res.status === 404) {
             dispatch({
                 type: CONFIRMATION_FAILED

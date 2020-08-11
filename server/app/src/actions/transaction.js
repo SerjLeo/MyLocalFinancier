@@ -33,13 +33,13 @@ export const addTransaction = (formData) => async dispatch => {
             payload: res.data
         })
 
-        dispatch(setAlert('Transaction added', 'success'))
+        dispatch(setAlert('transactionAdded', 'success'))
 
     } catch (err) {
         const errors = err.response.data.errors;
 
         if (errors) {
-            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+            errors.forEach(error => dispatch(setAlert(error.message, 'danger')))
         }
         dispatch({
             type: TRANSACTION_ERROR,
@@ -48,39 +48,39 @@ export const addTransaction = (formData) => async dispatch => {
     }
 }
 
-// export const getExpensesByIncome = (id, limit = 1000, skip = 0) => async dispatch => {
-//
-//     dispatch({
-//         type: EXPENSES_LOADING_ON
-//     })
-//
-//     try {
-//         const config = {
-//             headers: {
-//                 'Content-Type':'application/json',
-//                 'Accept':'application/json'
-//             }
-//         }
-//
-//         const res = await axios.get(`/api/expense/byincome/${id}?limit=${limit}&skip=${skip}`, config);
-//
-//         dispatch({
-//             type: GET_INCOME_EXPENSES,
-//             payload: res.data
-//         })
-//
-//     } catch (err) {
-//         const errors = err.response.data.errors;
-//
-//         if (errors) {
-//             errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
-//         }
-//         dispatch({
-//             type: EXPENSE_ERROR,
-//             payload: { msg: err.response.statusText, status: err.response.status}
-//         })
-//     }
-// }
+export const getTransactions = (limit = 50, skip = 0) => async dispatch => {
+
+    dispatch({
+        type: TRANSACTION_LOADING_ON
+    })
+
+    try {
+        const config = {
+            headers: {
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+            }
+        }
+
+        const res = await axios.get(`/api/transaction?limit=${limit}&skip=${skip}`, config);
+
+        dispatch({
+            type: GET_TRANSACTIONS,
+            payload: res.data
+        })
+
+    } catch (err) {
+        const errors = err.response.data.errors;
+
+        if (errors) {
+            errors.forEach(error => dispatch(setAlert(error.message, 'danger')))
+        }
+        dispatch({
+            type: TRANSACTION_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status}
+        })
+    }
+}
 //
 // export const getExpensesByCategory = (id, limit = 1000, skip = 0) => async dispatch => {
 //

@@ -39,6 +39,7 @@ module.exports.getTransactionsByIncome = async (req,res) => {
     let skip = req.query.skip ? parseInt(req.query.skip): 0;
     try {
         const transactions = await Transaction.find({$and: [{"user": userID}, {"income": incomeID}]})
+            .sort({$natural:-1})
             .skip(skip)
             .limit(limit)
             .populate('category')
@@ -55,6 +56,7 @@ module.exports.getTransactionsByCategory = async (req,res) => {
     let skip = req.query.skip ? parseInt(req.query.skip): 0;
     try {
         const transactions = await Transaction.find({$and: [{"user": userID}, {"category": categoryID}]})
+            .sort({$natural:-1})
             .skip(skip)
             .limit(limit)
             .populate('income')
@@ -70,6 +72,7 @@ module.exports.getTransactionsWithParams = async (req, res) => {
     let skip = req.query.skip ? parseInt(req.query.skip): 0;
     try {
         const transactions = await Transaction.find({"user": userID})
+            .sort({$natural:-1})
             .skip(skip)
             .limit(limit)
             .populate('category')
@@ -87,7 +90,7 @@ module.exports.getTransactionsByType = async (req,res) => {
     let limit = req.query.limit ? parseInt(req.query.limit): 1000;
     let skip = req.query.skip ? parseInt(req.query.skip): 0;
     try {
-        const transactions = await Transaction.find({$and: [{user: userID}, {type: type}]}).skip(skip).limit(limit);
+        const transactions = await Transaction.find({$and: [{user: userID}, {type: type}]}).sort({$natural:-1}).skip(skip).limit(limit);
         res.json(transactions);
     } catch (err) {
         res.status(400).send("Server error");

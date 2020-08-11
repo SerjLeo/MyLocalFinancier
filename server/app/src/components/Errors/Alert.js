@@ -10,6 +10,8 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import { makeStyles } from '@material-ui/core/styles';
 import {connect} from 'react-redux';
+import {compose} from "redux";
+import WithTranslation from "../translation/withTranslationHOC";
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -102,8 +104,8 @@ function CustomizedSnackbars({id, type, msg}) {
 }
 
 
-const Alert = ({alerts}) => alerts !== null && alerts.length > 0 && alerts.map(alert => (
-        <CustomizedSnackbars key={alert.id} id={alert.id} msg={alert.msg} type={alert.alertType}/>
+const Alert = ({alerts, strings}) => alerts !== null && alerts.length > 0 && alerts.map(alert => (
+        <CustomizedSnackbars key={alert.id} id={alert.id} msg={strings[alert.msg] || alert.msg} type={alert.alertType}/>
     ));
 
 Alert.propTypes = {
@@ -113,4 +115,7 @@ Alert.propTypes = {
 const mapStateToProps = (state) => ({
     alerts: state.alert
 });
-export default connect(mapStateToProps)(Alert);
+export default compose(
+    connect(mapStateToProps),
+    WithTranslation
+)(Alert)

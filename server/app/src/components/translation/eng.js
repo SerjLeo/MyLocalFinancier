@@ -98,5 +98,14 @@ export default {
     },
     AddTransaction: {
         title: 'Add transaction'
+    },
+    Alert: {
+        negativeBalance: 'There are insufficient funds in the account',
+        registerSuccess: 'Registered successfully!',
+        transactionAdded: 'Transaction added successfully',
+        needAuth: 'Authorization required'
+    },
+    RecentTransactions: {
+        title: 'Recent Transactions'
     }
 };

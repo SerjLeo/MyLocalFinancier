@@ -1,3 +1,6 @@
+import {Typography} from "@material-ui/core";
+import React from "react";
+
 export default {
     Form: {
         login: {
@@ -83,5 +86,14 @@ export default {
   },
   AddTransaction: {
     title: 'Добавить транзакцию'
+  },
+  Alert: {
+    negativeBalance: 'На этом счете недостаточно средств',
+    registerSuccess: 'Регистрация прошла успешно!',
+    transactionAdded: 'Транзакция добавлена',
+    needAuth: 'Необходима авторизация'
+  },
+  RecentTransactions: {
+    title: 'Последние транзакции'
   }
 };

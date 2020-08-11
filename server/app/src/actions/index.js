@@ -4,7 +4,7 @@ import {getProfile, setProfile} from './profile';
 import {updateIncome, getIncomeByID, addIncome, getIncomes, deleteIncome} from './income';
 import {getCategories, addCategory, deleteCategory, getCategoryByID} from './category';
 import {getRate, setLanguage} from './helpers';
-import {addTransaction} from './transaction'
+import {addTransaction, getTransactions} from './transaction'
 
 export {
     register,
@@ -31,5 +31,6 @@ export {
     getIncomes,
     deleteIncome,
     //transactions
-    addTransaction
+    addTransaction,
+    getTransactions
 }

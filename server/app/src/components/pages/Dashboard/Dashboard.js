@@ -15,13 +15,16 @@ import LastTransactions from '../expenses/LastTransactions'
 import PageLayout from '../../layout/PageLayout';
 import ExchangeRates from "./ExchangeRates";
 import SectionLayout from "../../layout/SectionLayout";
+import AllTransactions from "../Transactions/AllTransactions";
+import RecentTransactions from "../Transactions/RecentTransactions";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(theme => ({
     gridItem: {
         height: '100%'
     },
-    sidePanel: {
-        height: '100%',
+    disappear: {
+        width: '100%',
         [theme.breakpoints.down('xs')]: {
             display: 'none'
         }
@@ -30,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 
 const Dashboard =  ({loadUser, auth: {user, loading}}) => {
-    const styles = useStyles()
+    const classes = useStyles()
 
     useEffect(()=>{
         if(!user) {
@@ -46,15 +49,19 @@ const Dashboard =  ({loadUser, auth: {user, loading}}) => {
     return (
         <PageLayout wrap={false}>
             <Grid container justify="space-around" spacing={3} direction="row">
-                <Grid item className={styles.gridItem} xs={12} sm={7}>
+                <Grid item className={classes.gridItem} xs={12} sm={7}>
                     <Widgets/>
                     <IncomeDashboard/>
                     <CategoriesDashboard/>
                     <AddTransaction/>
                 </Grid>
-                <Grid item className={styles.sidePanel} sm={4} md={4}>
+                <Grid item className={classes.gridItem} xs={12} sm={5} md={5}>
                     <SectionLayout noPadding>
-                        <ExchangeRates/>
+                        <div className={classes.disappear}>
+                            <ExchangeRates/>
+                            <Divider/>
+                        </div>
+                        <RecentTransactions/>
                     </SectionLayout>
                 </Grid>
             </Grid>

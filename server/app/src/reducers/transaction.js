@@ -30,26 +30,28 @@ const transaction = (state = initialState, action) => {
         case ADD_TRANSACTION:
             return {
                 ...state,
-                loading: true
+                transactions: [
+                    payload,
+                    ...state.transactions
+                ],
+                loading: false
             }
         case GET_TRANSACTIONS:
             return {
                 ...state,
+                transactions: payload,
                 loading: false
             }
         case GET_TRANSACTIONS_BY_CATEGORY:
             return {
                 ...state,
-                expenses: payload,
+                transactionsByCategory: payload,
                 loading: false
             }
         case GET_TRANSACTIONS_BY_INCOME:
             return {
                 ...state,
-                expenses: [
-                    ...state.expenses,
-                    ...payload
-                ],
+                transactionsByIncome: payload,
                 loading: false
             }
         case DELETE_SINGLE_TRANSACTION:

@@ -1,6 +1,6 @@
 import LandingPage from './LandingPage';
 import Dashboard from './Dashboard/Dashboard';
-import AllTransactions from './expenses/AllTransactions';
+import AllTransactions from './Transactions/AllTransactions';
 import IncomeCatalog from './incomes/incomeCatalog/IncomeCatalog';
 import IncomePage from './incomes/incomePage/IncomePage';
 import CategoriesToolbar from './categories/CategoriesToolbar';

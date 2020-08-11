@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'flex-end',
         width: '100%',
         flexDirection: 'column',
-        cursor:'pointer'
+        cursor:'pointer',
+        marginBottom: 10
     },
     chart: {
         display: 'flex',

@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "concurrently": "^4.1.2",
+    "dot-prop": "^5.2.0",
     "nodemon": "^1.19.4"
   }
 }

@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme=> ({
         boxShadow: '4px 6px 9px -1px rgba(0,0,0,0.33)',
         borderRadius: 0,
         cursor: 'pointer',
-        transition: 'all 1s ease-out',
+        transition: 'all .5s ease-out',
         '&:hover':{
             backgroundColor: 'rgba(0,0,0,0.5)'
         }

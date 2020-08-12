@@ -20,7 +20,7 @@ const initialState = {
 };
 
 const transaction = (state = initialState, action) => {
-    const {type, payload} = action;
+    const {type, payload, params} = action;
     switch (type) {
         case TRANSACTION_LOADING_ON:
             return {
@@ -37,6 +37,16 @@ const transaction = (state = initialState, action) => {
                 loading: false
             }
         case GET_TRANSACTIONS:
+            if(params.skip) {
+                return {
+                    ...state,
+                    transactions: [
+                        ...state.transactions.slice(0,params.skip),
+                        ...payload
+                    ],
+                    loading: false
+                }
+            }
             return {
                 ...state,
                 transactions: payload,

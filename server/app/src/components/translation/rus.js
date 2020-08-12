@@ -57,43 +57,48 @@ export default {
         currentBalance: 'Средств на счете:'
     },
     LandingPage: {
-      loginBtn: 'Войти',
-      registerBtn: 'Зарегистрироваться',
-      welcomeText: 'Управляйте своими финансами эффективно'
+        loginBtn: 'Войти',
+        registerBtn: 'Зарегистрироваться',
+        welcomeText: 'Управляйте своими финансами эффективно'
     },
     Confirm: {
-      titleText: 'Адрес электронной почты успешно подтвержден!',
-      buttonText: 'войти'
+        titleText: 'Адрес электронной почты успешно подтвержден!',
+        buttonText: 'войти'
     },
     IncomeTabs:{
-      depositTab: 'Пополнить счет',
-      expenseTab: 'Добавить расход'
-  },
-  IncomeDashboard: {
-    infoText: 'Добавляйте счета для управления средствами',
-    title: 'Счета'
-  },
-  CategoriesDashboard: {
-    infoText: 'Добавляйте категории для сортировки расходов',
-    title: 'Категории'
-  },
-  LastTransactions: {
-    title: 'Последние транзакции',
-    loadMoreButtonText: 'Показать больше'
-  },
-  Welcome: {
-    greetings: 'Добро пожаловать, '
-  },
-  AddTransaction: {
-    title: 'Добавить транзакцию'
-  },
-  Alert: {
-    negativeBalance: 'На этом счете недостаточно средств',
-    registerSuccess: 'Регистрация прошла успешно!',
-    transactionAdded: 'Транзакция добавлена',
-    needAuth: 'Необходима авторизация'
-  },
-  RecentTransactions: {
-    title: 'Последние транзакции'
-  }
+        depositTab: 'Пополнить счет',
+        expenseTab: 'Добавить расход'
+    },
+    IncomeDashboard: {
+        infoText: 'Добавляйте счета для управления средствами',
+        title: 'Счета'
+    },
+    CategoriesDashboard: {
+        infoText: 'Добавляйте категории для сортировки расходов',
+        title: 'Категории'
+    },
+    LastTransactions: {
+        title: 'Последние транзакции',
+        loadMoreButtonText: 'Показать больше'
+    },
+    Welcome: {
+        greetings: 'Добро пожаловать, '
+    },
+    AddTransaction: {
+        title: 'Добавить транзакцию'
+    },
+    Alert: {
+        negativeBalance: 'На этом счете недостаточно средств',
+        registerSuccess: 'Регистрация прошла успешно!',
+        transactionAdded: 'Транзакция добавлена',
+        needAuth: 'Необходима авторизация'
+    },
+    RecentTransactions: {
+        title: 'Последние транзакции',
+        toAll: 'Все транзакции'
+    },
+    AllTransactions: {
+        title: 'История транзакций',
+        loadMore: 'Загрузить больше'
+    }
 };

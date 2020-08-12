@@ -8,77 +8,83 @@ import moment from 'moment'
 import {Button, Typography} from '@material-ui/core';
 import PageLayout from '../../layout/PageLayout'
 import WithTranslation from '../../translation/withTranslationHOC';
+import {getCategories, getIncomes, getTransactions} from "../../../actions";
+import Toolbar from "../../helpers/Toolbar";
 
-const AllTransactions = ({strings}) => {
+const AllTransactions = ({transactions, categories, incomes, loading, strings, getTransactions, getIncomes, getCategories}) => {
 
     const[params, setParams] = useState({
-        limit: 100,
+        limit: 50,
         skip: 0
     })
-
+    const[filters, setFilters] = useState({
+        income: '',
+        category: '',
+        type: null,
+        search: ''
+    })
     const {skip, limit} = params
-
-    useEffect(()=>{
-        // if(expenses.length === 0) {
-        //     getExpenses(limit, skip)
-        // }
-        // if(deposits.length === 0) {
-        //     getDeposits(limit, skip)
-        // }
-    },[])
+    useEffect( () => {
+        if(!transactions.length) {
+            getTransactions(limit,0)
+        } else if(!incomes.length) {
+            getIncomes()
+        } else if(!categories.length) {
+            getCategories()
+        }
+    })
 
     const loadMore = () => {
-        // const newSkip = skip + limit
-        // loadMoreExpenses(limit, newSkip)
-        // loadMoreDeposits(limit, newSkip)
-        // setParams({
-        //     ...params,
-        //     skip: newSkip
-        // })
+        let newSkip = skip?(skip + limit):transactions.length
+        getTransactions(limit, newSkip)
+        setParams({
+            limit,
+            skip: newSkip
+        })
     }
-    
 
-    // if (expenseLoading && depositLoading || expenses === undefined && deposits === undefined) {
-    //     return <PageLayout>
-    //              <Spinner/>
-    //            </PageLayout>
-    // }
-    // if (expenses.length === 0 && deposits.length === 0) {
-    //     return (
-    //         <PageLayout>
-    //             No transactions yet...
-    //         </PageLayout>
-    //     )
-    // }
-    //
-    // let transactions = [
-    //     ...expenses,
-    //     ...deposits
-    // ]
-    //
-    // transactions.sort((a, b) => {
-    //     if(moment(a.date).isAfter(moment(b.date)))
-    //         return -1
-    //     else if (moment(a.date).isBefore(moment(b.date)))
-    //         return 1
-    //     else
-    //         return 0
-    // })
+    const handleChange = e => {
+        setFilters({
+            ...filters,
+            [e.target.name]: e.target.value
+        })
+    }
 
+    const filterTransactions = t => {
+        if(filters.search && !t.title.toLowerCase().includes(filters.search)) return false
+        if(filters.income && (t.income._id !== filters.income)) return false
+        if(filters.category && (t.category._id !== filters.category)) return false
+        if(filters.type && (t.type !== filters.type)) return false
+        return true
+    }
+
+
+    if (transactions.length === 0 && !loading) {
+        return (
+            <PageLayout>
+                <div>
+                    No transactions yet...
+                </div>
+            </PageLayout>
+        )
+    }
 
     return (
         <PageLayout>
-            <Typography gutterBottom variant='h5'>Expense history</Typography>
-            {/*{transactions.map((transaction, i) => {*/}
-            {/*    return <TransactionCard*/}
-            {/*    key={transaction._id}*/}
-            {/*    transaction={transaction}*/}
-            {/*    type={transaction.category === undefined?'deposit':'expense'}*/}
-            {/*    />*/}
-            {/*})}*/}
-            <Button fullWidth onClick={() => loadMore()}>
-                Load more
-            </Button>
+            <Typography variant='h5'>{strings.title}</Typography>
+            <Toolbar search categories={categories} incomes={incomes} filters={filters} onChange={handleChange}/>
+            {transactions.filter(filterTransactions).map(transaction => {
+                return <TransactionCard
+                    key={transaction._id}
+                    transaction={transaction}
+                />
+            })}
+            {loading
+                ?<Spinner/>
+                :<Button fullWidth onClick={loadMore} style={{marginTop: 10}}>
+                    {strings.loadMore}
+                </Button>
+            }
         </PageLayout>
     )
 }
@@ -87,12 +93,13 @@ AllTransactions.propTypes = {
     expenses: PropTypes.array
 }
 const mapStateToProps = (state) => ({
-    expenses: state.expense.expenses,
-    expenseLoading: state.expense.loading,
-    deposits: state.deposit.deposits,
-    depositLoading: state.deposit.loading
+    transactions: state.transaction.transactions,
+    loading: state.transaction.loading,
+    categories: state.category.categories,
+    incomes: state.income.incomes
 })
+
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, {getTransactions, getCategories, getIncomes}),
     WithTranslation
 )(AllTransactions)

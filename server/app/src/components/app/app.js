@@ -61,7 +61,7 @@ const App = ({loadUser}) => {
                         <Route exact path='/login' component={Login}/>
                         <PrivateRoute exact path='/dashboard' component={Dashboard}/>
                         <PrivateRoute exact path='/settings' component={Settings}/>
-                        <PrivateRoute exact path='/expenses' component={AllTransactions}/>
+                        <PrivateRoute exact path='/transactions' component={AllTransactions}/>
                         <PrivateRoute exact path='/incomes' component={IncomeCatalog}/>
                         <PrivateRoute exact path='/categories' component={CategoriesToolbar}/>
                         <PrivateRoute exact path='/incomes/:incomeID' component={IncomePage}/>

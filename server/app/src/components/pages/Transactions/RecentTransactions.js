@@ -9,6 +9,8 @@ import {Typography} from '@material-ui/core';
 import WithTranslation from '../../translation/withTranslationHOC';
 import {getTransactions} from "../../../actions";
 import {makeStyles} from "@material-ui/styles";
+import CustomLink from "../../helpers/CustomLink";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
     container: {
@@ -52,6 +54,11 @@ const RecentTransactions = ({strings, transactions, loading, getTransactions}) =
                     />
                 })}
             </div>
+            <CustomLink to='/transactions' style={{width: '100%'}}>
+                <Button fullWidth style={{marginTop: 10}} variant="outlined">
+                    {strings.toAll}
+                </Button>
+            </CustomLink>
         </div>
     )
 }

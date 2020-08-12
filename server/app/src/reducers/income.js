@@ -46,14 +46,14 @@ const income = (state = initialState, action) => {
             return {
               ...state,
               incomes: [
-                payload,
-              ...state.incomes
+                  ...state.incomes,
+                  payload
               ],
               loading: false
             }
         case UPDATE_INCOME:
             const index = state.incomes.findIndex(item => item._id === payload._id)
-            if (state.incomes.length === 0) {
+            if (index === -1) {
                 return {
                     ...state,
                     activeIncome: payload,

@@ -45,8 +45,8 @@ const category = (state = initialState, action) => {
             return {
               ...state,
               categories: [
-                payload,
-              ...state.categories
+                  ...state.categories,
+                  payload
               ],
               loading: false
             }

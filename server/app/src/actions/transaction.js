@@ -66,7 +66,11 @@ export const getTransactions = (limit = 50, skip = 0) => async dispatch => {
 
         dispatch({
             type: GET_TRANSACTIONS,
-            payload: res.data
+            payload: res.data,
+            params: {
+                skip,
+                limit
+            }
         })
 
     } catch (err) {

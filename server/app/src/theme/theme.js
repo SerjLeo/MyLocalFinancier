@@ -31,7 +31,7 @@ const theme = createMuiTheme({
     commonStyles: {
         pageContainer: {
             backgroundColor: 'rgba(255,255,255,0.1)',
-            paddingTop: 100,
+            paddingTop: 70,
             paddingBottom: 10,
             display: 'flex',
             flexDirection: 'column',
@@ -59,13 +59,6 @@ const theme = createMuiTheme({
             md: 960,
             lg: 1280,
             xl: 1920
-        }
-    },
-    overrides: {
-        MuiSelect: { // Name of the component ⚛️ / style sheet
-            select: { // Name of the rule
-                padding: 0, // Some CSS
-            }
         }
     }
 });

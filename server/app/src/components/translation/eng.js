@@ -106,6 +106,11 @@ export default {
         needAuth: 'Authorization required'
     },
     RecentTransactions: {
-        title: 'Recent Transactions'
+        title: 'Recent Transactions',
+        toAll: 'All transactions'
+    },
+    AllTransactions: {
+        title: 'Transaction History',
+        loadMore: 'Load more'
     }
 };

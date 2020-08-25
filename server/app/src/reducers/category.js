@@ -10,8 +10,8 @@ import {
 } from '../actions/types';
 
 const initialState = {
-    categories:[],
-    activeCategory:{},
+    categories: null,
+    activeCategory:null,
     loading: true,
     error: {}
 };
@@ -52,10 +52,23 @@ const category = (state = initialState, action) => {
             }
         case CLEAR_FINANCE:
             return {
-                categories: [],
-                activeCategory: {},
-                error:{},
-                loading: true
+                categories: null,
+                activeCategory:null,
+                loading: true,
+                error: {}
+            }
+        case DELETE_CATEGORY:
+            const categories = state.categories?state.categories.filter(c => c._id !== payload._id):null
+            let activeCategory = state.activeCategory
+            if(state.activeCategory && state.activeCategory._id === payload._id) {
+                activeCategory = null
+            }
+            return {
+                ...state,
+                categories,
+                activeCategory,
+                loading: false,
+                error: {}
             }
         case CATEGORY_ERROR:
             return {

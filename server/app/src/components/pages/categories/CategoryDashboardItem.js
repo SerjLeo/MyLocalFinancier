@@ -8,17 +8,17 @@ const DashboardListItem = ({title, icon, color, id}) => {
     const [redirect, setRedirect] = useState(false)
 
     if(redirect){
-        return <Redirect to={`/categories/${id}`}/>
+        return <Redirect push to={`/categories/${id}`}/>
     }
 
     let Icon = getCategoriesIcon(icon)()
 
     return (
-        <div style={{width:"80px", height:"100%", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", margin:'5px'}}>
+        <div style={{width:"85px", height:"100%", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", margin:'5px'}}>
             <Fab aria-label="add" style={{outline:'none', boxShadow:'none', backgroundColor: color, color:"#f7f7f7"}} onClick={() => setRedirect(true)}>
                 {Icon}
             </Fab>
-            <div className="subtitle" style={{fontSize:'12px', marginTop:'5px', textAlign:'center', fontWeight: '500', maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{title}</div>
+            <div className="subtitle" style={{fontSize:'12px', marginTop:'5px', textAlign:'center', fontWeight: '500', maxWidth: '83px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{title}</div>
         </div>
     )
 }

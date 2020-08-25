@@ -1,4 +1,5 @@
 export default class InterfaceStateService {
+    //Controls state of app's interfaces (shown/hidden)
     getProperty(name) {
         let interfaceState = localStorage.getItem('interfaceState')?JSON.parse(localStorage.getItem('interfaceState')):null
         if(interfaceState && interfaceState[name]) {

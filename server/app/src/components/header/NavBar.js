@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {compose} from 'redux'
 import CustomLink from '../helpers/CustomLink';
 import {logout, setLanguage} from '../../actions';
 import PropTypes from 'prop-types';
@@ -11,6 +12,7 @@ import {LoginIcon, LogoutIcon} from '../layout/Icons/NavBar'
 
 //MaterialUI components
 import {AppBar, Toolbar, Typography, Grid, makeStyles} from '@material-ui/core';
+import WithTranslation from "../translation/withTranslationHOC";
 
 const useStyles = makeStyles(theme=>({
     menuItemText: {
@@ -44,18 +46,17 @@ const useStyles = makeStyles(theme=>({
     }
 }))
 
-const Header = ({isAuthenticated, loading, logout, language, setLanguage}) => {
+const Header = ({strings, isAuthenticated, loading, logout, language, setLanguage}) => {
     const classes = useStyles();
     const handleLangChange = language => setLanguage(language);
     const userLinks = (
         <>
-            <CustomLink className={classes.menuItem} to='/settings'>
-                <SettingsIcon/>{' '}
-                <div className={classes.menuItemText}>Settings</div>
-            </CustomLink>
+            <div className={classes.menuItem}>
+                <LangChange selectedLanguage={language} onLangChange={handleLangChange}/>
+            </div>
             <CustomLink className={classes.menuItem} to='/' onClick={() => {logout()}}>
                 <LogoutIcon/>{' '}   
-                <div className={classes.menuItemText}>Logout</div>
+                <div className={classes.menuItemText}>{strings.logout}</div>
             </CustomLink>
         </>
     );
@@ -67,11 +68,11 @@ const Header = ({isAuthenticated, loading, logout, language, setLanguage}) => {
             </div>
             <CustomLink className={classes.menuItem} to='/register'>
                 <PersonIcon/>{' '}   
-                <div className={classes.menuItemText}>Register</div>
+                <div className={classes.menuItemText}>{strings.register}</div>
             </CustomLink>
             <CustomLink className={classes.menuItem} to='/login'>
                 <LoginIcon/>{' '}
-                <div className={classes.menuItemText}>Login</div>
+                <div className={classes.menuItemText}>{strings.login}</div>
             </CustomLink>
         </>
     );
@@ -97,16 +98,17 @@ const Header = ({isAuthenticated, loading, logout, language, setLanguage}) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        isAuthenticated: state.auth.isAuthenticated,
-        loading: state.auth.loading,
-        language: state.system.language
-    }
-}
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    loading: state.auth.loading,
+    language: state.system.language
+})
 Header.propTypes = {
     isAuthenticated: PropTypes.bool,
     loading: PropTypes.bool,
     logout: PropTypes.func.isRequired
 }
-export default connect(mapStateToProps, {logout, setLanguage})(Header);
+export default compose(
+    connect(mapStateToProps, {logout, setLanguage}),
+    WithTranslation
+)(Header);

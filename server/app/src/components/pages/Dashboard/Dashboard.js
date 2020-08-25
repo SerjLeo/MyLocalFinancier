@@ -1,23 +1,18 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import {makeStyles} from '@material-ui/core/styles';
+import Divider from "@material-ui/core/Divider";
 
-import {getProfile, loadUser} from '../../../actions';
 import Spinner from '../../layout/Spinner';
 import IncomeDashboard from '../incomes/IncomeDashboard';
 import CategoriesDashboard from '../categories/CategoriesDashboard';
-import Widgets from './Widgets'
 import AddTransaction from '../Transactions/AddTransaction';
-import LastTransactions from '../expenses/LastTransactions'
-
 import PageLayout from '../../layout/PageLayout';
 import ExchangeRates from "./ExchangeRates";
 import SectionLayout from "../../layout/SectionLayout";
-import AllTransactions from "../Transactions/AllTransactions";
 import RecentTransactions from "../Transactions/RecentTransactions";
-import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(theme => ({
     gridItem: {
@@ -32,14 +27,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-const Dashboard =  ({loadUser, auth: {user, loading}}) => {
+const Dashboard =  ({loading}) => {
     const classes = useStyles()
-
-    useEffect(()=>{
-        if(!user) {
-            loadUser();
-        }
-    }, []);
     
     if(loading) {
         return  <PageLayout>
@@ -48,9 +37,8 @@ const Dashboard =  ({loadUser, auth: {user, loading}}) => {
     }
     return (
         <PageLayout wrap={false}>
-            <Grid container justify="space-around" spacing={3} direction="row">
+            <Grid container justify="space-around" spacing={1} direction="row">
                 <Grid item className={classes.gridItem} xs={12} sm={7}>
-                    <Widgets/>
                     <IncomeDashboard/>
                     <CategoriesDashboard/>
                     <AddTransaction/>
@@ -70,10 +58,9 @@ const Dashboard =  ({loadUser, auth: {user, loading}}) => {
 }
 
 Dashboard.propTypes = {
-    auth: PropTypes.object.isRequired
+    loading: PropTypes.bool
 }
 const mapStateToProps = (state) => ({
-    profile: state.profile,
-    auth: state.auth
+    loading: state.auth.loading
 })
-export default connect(mapStateToProps, {getProfile, loadUser})(Dashboard);
+export default connect(mapStateToProps)(Dashboard);

@@ -4,7 +4,7 @@ const {validationResult} = require('express-validator');
 
 module.exports.getIncomes = async (req,res) => {
     try {
-        const incomes = await Income.find({user: req.user.id})
+        const incomes = await Income.find({user: req.user.id}).populate('user','id')
         if(!incomes) {
             return res.status(400).json({message: 'No incomes for this user'})
         }
@@ -16,11 +16,12 @@ module.exports.getIncomes = async (req,res) => {
 
 module.exports.getIncomeByID = async (req,res) => {
     try {
-        const income = await Income.findById(req.params.id)
+        const income = await Income.findById(req.params.id).populate('user','id')
         if(!income) {
             return res.status(404).json({message: 'Income not found!'})
         }
-        if(income.user != req.user.id) {
+
+        if(String(income.user._id) !== req.user.id) {
             return res.status(403).json({message: 'Access denied'})
         }
         res.status(200).json(income);
@@ -90,7 +91,6 @@ module.exports.deleteIncome = async (req,res) => {
         }
         res.status(200).json(income);
     } catch (err) {
-        console.log(err)
         res.status(400).send("Server error");
     }
 }

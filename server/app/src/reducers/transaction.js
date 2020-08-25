@@ -5,37 +5,74 @@ import {
     GET_TRANSACTIONS_BY_INCOME,
     DELETE_SINGLE_TRANSACTION,
     DELETE_RELATED_TRANSACTIONS,
-    LOAD_MORE_TRANSACTIONS,
     TRANSACTION_ERROR,
     CLEAR_FINANCE,
-    TRANSACTION_LOADING_ON
+    TRANSACTIONS_LOADING_ON,
+    TRANSACTIONS_BY_CATEGORY_LOADING_ON,
+    TRANSACTIONS_BY_INCOME_LOADING_ON
 } from '../actions/types';
 
 const initialState = {
-    transactions:[],
-    transactionsByIncome: [],
-    transactionsByCategory: [],
-    loading: true,
+    transactions: null,
+    transactions_loading: true,
+    transactionsByIncome: {
+        income: null,
+        transactions: null
+    },
+    transactionsByCategory: {
+        category: null,
+        transactions: null
+    },
+    transactionsByIncome_loading: true,
+    transactionsByCategory_loading: true,
     error: {}
 };
 
 const transaction = (state = initialState, action) => {
     const {type, payload, params} = action;
     switch (type) {
-        case TRANSACTION_LOADING_ON:
+        case TRANSACTIONS_LOADING_ON:
             return {
                 ...state,
-                loading: true
+                transactions_loading: true
+            }
+        case TRANSACTIONS_BY_CATEGORY_LOADING_ON:
+            return {
+                ...state,
+                transactionsByCategory_loading: true
+            }
+        case TRANSACTIONS_BY_INCOME_LOADING_ON:
+            return {
+                ...state,
+                transactionsByIncome_loading: true
             }
         case ADD_TRANSACTION:
-            return {
-                ...state,
-                transactions: [
-                    payload,
-                    ...state.transactions
-                ],
-                loading: false
+            let newState = {}
+            if(!state.transactions) {
+                newState = {
+                    ...state,
+                    transactions: [
+                        payload
+                    ],
+                    transactions_loading: false
+                }
+            } else {
+                newState = {
+                    ...state,
+                    transactions: [
+                        payload,
+                        ...state.transactions
+                    ],
+                    transactions_loading: false
+                }
             }
+            if(payload.income._id === state.transactionsByIncome.income) {
+                newState.transactionsByIncome.transactions.unshift(payload)
+            }
+            if(payload.category._id === state.transactionsByCategory.category) {
+                newState.transactionsByCategory.transactions.unshift(payload)
+            }
+            return newState
         case GET_TRANSACTIONS:
             if(params.skip) {
                 return {
@@ -44,60 +81,84 @@ const transaction = (state = initialState, action) => {
                         ...state.transactions.slice(0,params.skip),
                         ...payload
                     ],
-                    loading: false
+                    transactions_loading: false
                 }
             }
             return {
                 ...state,
                 transactions: payload,
-                loading: false
+                transactions_loading: false
             }
         case GET_TRANSACTIONS_BY_CATEGORY:
             return {
                 ...state,
                 transactionsByCategory: payload,
-                loading: false
+                transactionsByCategory_loading: false
             }
         case GET_TRANSACTIONS_BY_INCOME:
             return {
                 ...state,
                 transactionsByIncome: payload,
-                loading: false
+                transactionsByIncome_loading: false
             }
         case DELETE_SINGLE_TRANSACTION:
             return {
                 ...state,
-                expensesByIncome: payload,
-                loading: false
+                transactions: state.transactions?state.transactions.filter(t => t._id !== payload):null,
+                transactionsByIncome: {
+                    income: null,
+                    transactions: state.transactionsByIncome.transactions?state.transactionsByIncome.transactions.filter(t => t._id !== payload):null
+                },
+                transactionsByCategory: {
+                    category: null,
+                    transactions: state.transactionsByCategory.transactions?state.transactionsByCategory.transactions.filter(t => t._id !== payload):null
+                },
+                transactions_loading: false
             }
         case DELETE_RELATED_TRANSACTIONS:
+            let transactionsByIncome_loading = state.transactionsByIncome_loading
+            const transactions = state.transactions?state.transactions.filter(t => t.income && (t.income._id !== payload)):null
+            const transactionsByCategory = {
+                ...state.transactionsByCategory,
+                transactions: state.transactionsByCategory.transactions?state.transactionsByCategory.transactions.filter(t => t.income && (t.income._id !== payload)):null
+            }
+            let transactionsByIncome = state.transactionsByIncome
+            if(state.transactionsByIncome.income === payload) {
+                transactionsByIncome = {
+                    income: null,
+                    transactions: null
+                }
+                transactionsByIncome_loading = true
+            }
             return {
                 ...state,
-                expensesByCategory: payload,
-                loading: false
+                transactions,
+                transactionsByCategory,
+                transactionsByIncome,
+                transactionsByIncome_loading
             }
-        case LOAD_MORE_TRANSACTIONS:
-            return {
-                ...state,
-                expenses: [
-                    ...state.expenses,
-                    payload
-                ],
-                loading: false
-            }
-
         case CLEAR_FINANCE:
             return {
-                transactions:[],
-                transactionsByIncome: [],
-                transactionsByCategory: [],
-                loading: true,
+                transactions: null,
+                transactions_loading: true,
+                transactionsByIncome: {
+                    income: null,
+                    transactions: null
+                },
+                transactionsByCategory: {
+                    category: null,
+                    transactions: null
+                },
+                transactionsByIncome_loading: true,
+                transactionsByCategory_loading: true,
                 error: {}
             }
         case TRANSACTION_ERROR:
             return {
                 ...state,
-                loading: false,
+                transactions_loading: false,
+                transactionsByIncome_loading: false,
+                transactionsByCategory_loading: false,
                 error: payload
             }
         default:

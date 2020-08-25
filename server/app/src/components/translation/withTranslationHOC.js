@@ -26,7 +26,7 @@ const WithTranslation = WrappedComponent =>
       }
 
       componentDidMount() {
-        this.unsubscribe = store.subscribe(() =>{
+        this.unsubscribe = store.subscribe(() => {
           let language
           if(store.getState().profile && store.getState().profile.profile && store.getState().profile.profile.language) {
             language = store.getState().profile.profile.language;

@@ -10,7 +10,7 @@ const DashboardListItem = ({title, icon, balance, currency, color, id}) => {
     const [redirect, setRedirect] = useState(false)
 
     if(redirect){
-        return <Redirect to={`/incomes/${id}`}/>
+        return <Redirect push to={`/incomes/${id}`}/>
     }
 
     let Icon = getIncomeIcon(icon)()
@@ -21,8 +21,8 @@ const DashboardListItem = ({title, icon, balance, currency, color, id}) => {
             <Fab aria-label="add" style={{outline:'none', boxShadow:'none', backgroundColor: color, color:"#f7f7f7"}} onClick={() => setRedirect(true)}>
                 {Icon}
             </Fab>
-            <div className="subtitle" style={{fontSize:'12px', marginTop:'5px', fontWeight: '500'}}>{title}</div>
-            {balance?<div className="subtitle" style={{fontSize:'12px', marginTop:'5px', fontWeight: '500', maxWidth: '80px', overflow:'hidden', textOverflow: 'ellipsis'}}>{balance.toFixed(2)}{' '}{currency}</div>:null}
+            <div className="subtitle" style={{fontSize:'12px', marginTop:'5px', fontWeight: '500', textAlign: 'center'}}>{title}</div>
+            <div className="subtitle" style={{fontSize:'12px', marginTop:'5px', fontWeight: '500', textAlign: 'center', maxWidth: '80px', overflow:'hidden', textOverflow: 'ellipsis'}}>{balance.toFixed(2)}{' '}{currency}</div>
         </div>
     )
 }

@@ -61,33 +61,46 @@ export default {
     AddTransactionForm: {
         titleText: "Add transaction",
         buttonText: "Add",
-        income: 'Income',
+        income: 'Income *',
         title: 'Title',
         amount: 'Amount',
-        category: 'Category',
+        category: 'Category *',
         currency: 'Currency',
         currentBalance: 'Balance:'
     },
     LandingPage: {
         loginBtn: 'Login',
         registerBtn: 'Register',
-        welcomeText: 'Manage you finance effectivly'
+        welcomeText: 'Manage you finance effectively',
+        subtitle: 'Make your Mom proud!'
     },
     Confirm: {
         titleText: 'Email successfully confirmed!',
         buttonText: 'move to login'
     },
-    IncomeTabs:{
-        depositTab: 'Add deposit',
-        expenseTab: 'Add expense'
-    },
     IncomeDashboard: {
         infoText: 'Add incomes to manage your finance',
         title: 'Incomes'
     },
+    IncomeCatalog: {
+        title: 'Incomes',
+        analytics: 'Analytics'
+    },
+    IncomePage: {
+        title: 'About income',
+        analytics: 'Analytics'
+    },
+    CategoryPage: {
+        title: 'About category',
+        analytics: 'Analytics'
+    },
     CategoriesDashboard: {
         infoText: 'Add categories to sort transactions',
         title: 'Categories'
+    },
+    CategoriesCatalog: {
+        title: 'Categories',
+        analytics: 'Analytics'
     },
     LastTransactions: {
         title: 'Last transactions',
@@ -103,14 +116,94 @@ export default {
         negativeBalance: 'There are insufficient funds in the account',
         registerSuccess: 'Registered successfully!',
         transactionAdded: 'Transaction added successfully',
-        needAuth: 'Authorization required'
+        confirmationSend: 'Email with confirmation sent to your address',
+        transactionDeleted: 'Transaction deleted',
+        needAuth: 'Authorization required',
+        incomeDeleted: 'Income deleted',
+        categoryDeleted: 'Category deleted',
+        incomeAdded: 'Income Added',
+        categoryAdded: 'Category Added',
+        emailConfirmed: 'Email successfully confirmed!'
     },
     RecentTransactions: {
         title: 'Recent Transactions',
-        toAll: 'All transactions'
+        toAll: 'All transactions',
+        empty: 'No transactions yet...'
     },
-    AllTransactions: {
+    TransactionsList: {
         title: 'Transaction History',
-        loadMore: 'Load more'
+        loadMore: 'Load more',
+        empty: 'No transactions yet...'
+    },
+    Footer: {
+        rights: 'All rights reserved'
+    },
+    Searchbar: {
+        all: 'All...',
+        incomes: 'Incomes',
+        categories: 'Categories'
+    },
+    AnalyticsFilters: {
+        currency: 'Currency',
+        type: 'Type',
+        all: 'All...',
+        from: 'From',
+        to: 'To',
+        timePeriod: 'Time period',
+        month: 'Month',
+        year: 'Year',
+        income: 'Income',
+        category: 'Category',
+        allTime: 'All time',
+        customPeriod: 'Customize',
+        months: {
+            'Jan': 'January',
+            'Feb': 'February',
+            'Mar': 'March',
+            'Apr': 'April',
+            'May': 'May',
+            'Jun': 'June',
+            'Jul': 'July',
+            'Aug': 'August',
+            'Sep': 'September',
+            'Oct': 'October',
+            'Nov': 'November',
+            'Dec': 'December'
+        }
+    },
+    Analytics: {
+        incomes: 'Incomes',
+        categories: 'Categories'
+    },
+    Menu: {
+        title: 'Menu',
+        analytics: 'Analytics',
+        dashboard: 'Dashboard',
+        transactions: 'Transactions',
+        incomes: 'Incomes',
+        categories: 'Categories',
+        settings: 'Settings',
+        allAnalytics: 'Analytics navigation',
+        byIncomes: 'By incomes',
+        byCategories: 'By categories',
+        byTypes: 'Deposits/Expenses'
+    },
+    Header: {
+        register: 'Register',
+        login: 'Login',
+        logout: 'Logout',
+        settings: 'Settings'
+    },
+    EmptyData: {
+        empty: 'No data'
+    },
+    DeleteDialog: {
+        delete: 'Delete',
+        cancel: 'Cancel',
+        incomeTitle: 'Delete income',
+        categoryTitle: 'Delete category',
+        deleteRelative: 'Delete related transactions',
+        deleteIncomeDescription: 'Not deleted transactions may be not allowed in certain analytics, but in global makes it more accurate',
+        deleteCategoryDescription: 'This category will be excluded from analytics. Do not delete this category, if it has many related transactions!'
     }
 };

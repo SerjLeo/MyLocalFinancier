@@ -114,7 +114,6 @@ const IncomeDailyAnalytics = ({title, deposits=[], expenses=[], year = 2019}) =>
                 onChange={handleChange}
                 valueLabelDisplay="auto"
                 valueLabelFormat={getLabelSliderValue}
-                aria-labelledby="range-slider"
                 min={0}
                 max={11 + (today.getFullYear() - year) * 12}
                 defaultValue={[today.getFullYear() -1, today.getFullYear()]}

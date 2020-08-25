@@ -4,7 +4,7 @@ import {Card, Grid, CardActionArea, CardContent, makeStyles, Typography} from '@
 import getIncomeIcon from '../../layout/Icons/incomeIcons'
 import {Redirect} from 'react-router-dom'
 
-const useStyles = makeStyles( theme => ({
+const useStyles = makeStyles( {
     media: {
         height: 80,
     },
@@ -27,12 +27,14 @@ const useStyles = makeStyles( theme => ({
     titleText: {
         padding: 0,
         overflow: "hidden",
-        textOverflow: "ellipsis"
+        textOverflow: "ellipsis",
+        textAlign: "right"
     }
-}));
+})
 
-const IncomeDashboardCard = ({icon, balance, title, color, currency, id, isWide}) => {
+const IncomeDashboardCard = ({income, isWide}) => {
     const [redirect, setRedirect] = useState(false)
+    const {icon, balance, title, color, currency, _id} = income
     const classes = useStyles();
     let Icon = getIncomeIcon(icon)
     const iconProps = {
@@ -43,7 +45,7 @@ const IncomeDashboardCard = ({icon, balance, title, color, currency, id, isWide}
     }
 
     if(redirect){
-        return <Redirect to={`/incomes/${id}`}/>
+        return <Redirect push to={`/incomes/${_id}`}/>
     }
     return (
         <Grid item xs={isWide?6:12}>
@@ -80,11 +82,8 @@ const IncomeDashboardCard = ({icon, balance, title, color, currency, id, isWide}
 }
 
 IncomeDashboardCard.propTypes = {
-    type: PropTypes.string,
-    icon: PropTypes.string,
-    balance: PropTypes.number,
-    currency: PropTypes.string,
-    color: PropTypes.string
+    income: PropTypes.object,
+    isWide: PropTypes.bool
 }
 
 export default IncomeDashboardCard

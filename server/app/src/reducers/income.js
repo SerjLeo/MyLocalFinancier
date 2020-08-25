@@ -3,6 +3,7 @@ import {
     GET_INCOMES,
     GET_SINGLE_INCOME,
     UPDATE_INCOME,
+    UPDATE_ACTIVE_INCOME,
     INCOMES_LOADING_ON,
     INCOMES_LOADING_OFF,
     CLEAR_FINANCE,
@@ -11,8 +12,8 @@ import {
 } from '../actions/types';
 
 const initialState = {
-    incomes:[],
-    activeIncome:{},
+    incomes: null,
+    activeIncome: null,
     loading: true,
     error: {}
 };
@@ -52,30 +53,49 @@ const income = (state = initialState, action) => {
               loading: false
             }
         case UPDATE_INCOME:
-            const index = state.incomes.findIndex(item => item._id === payload._id)
-            if (index === -1) {
+            if(state.incomes) {
+                const index = state.incomes.findIndex(item => item._id === payload._id)
                 return {
                     ...state,
-                    activeIncome: payload,
+                    incomes: [
+                        ...state.incomes.slice(0,index),
+                        payload,
+                        ...state.incomes.slice(index+1)
+                    ],
                     loading: false
                 }
             }
             return {
-              ...state,
-              incomes: [
-                ...state.incomes.slice(0,index),
-                payload,
-                ...state.incomes.slice(index+1)
-              ],
-              activeIncome: payload,
-              loading: false
+                ...state,
+                loading: false
+            }
+        case UPDATE_ACTIVE_INCOME:
+            if(state.activeIncome && (payload._id === state.activeIncome._id)) {
+                return {
+                    ...state,
+                    activeIncome: payload
+                }
+            }
+            return state
+        case DELETE_INCOME:
+            const incomes = state.incomes?state.incomes.filter(i => i._id !== payload._id):null
+            let activeIncome = state.activeIncome
+            if(state.activeIncome && state.activeIncome._id === payload._id) {
+                activeIncome = null
+            }
+            return {
+                ...state,
+                incomes,
+                activeIncome,
+                loading: false,
+                error: {}
             }
         case CLEAR_FINANCE:
             return {
-                categories: [],
-                activeCategory: {},
-                error:{},
-                loading: true
+                incomes: null,
+                activeIncome: null,
+                loading: true,
+                error: {}
             }
         case INCOME_ERROR:
             return {

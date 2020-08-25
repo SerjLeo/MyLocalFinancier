@@ -10,11 +10,9 @@ import {
 import {setAlert} from '.'
 
 export const getCategories = () => async dispatch => {
-
     dispatch({
         type: CATEGORIES_LOADING_ON
     })
-
     try {
         const config = {
             headers: {
@@ -44,29 +42,23 @@ export const getCategories = () => async dispatch => {
 }
 
 export const addCategory = formData => async dispatch => {
-
     dispatch({
         type: CATEGORIES_LOADING_ON
     })
-
     try {
         const config = {
             headers: {
                 'Accept':'application/json'
             }
         }
-
         const res = await axios.put('/api/category', formData, config);
-
         dispatch({
             type: ADD_CATEGORY,
             payload: res.data
         })
-
-        dispatch(setAlert('Category added', 'success'))
+        dispatch(setAlert('categoryAdded', 'success'))
     } catch (err) {
         const errors = err.response.data.errors;
-
         if (errors) {
             errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
         }
@@ -77,75 +69,60 @@ export const addCategory = formData => async dispatch => {
     }
 }
 
-export const createDefaultCategories = token => async dispatch => {
-    try {
-        await axios.get('/api/category/default');
-    } catch (err) {
-        const errors = err.response.data.errors;
-
-        if (errors) {
-            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
-        }
-        dispatch({
-            type: CATEGORY_ERROR,
-            payload: { msg: err.response.statusText, status: err.response.status}
-        })
-    }
-}
-
-export const getCategoryByID = id => async dispatch => {
-
+export const getCategoryByID = (id, category) => async dispatch => {
     dispatch({
         type: CATEGORIES_LOADING_ON
     })
-
-    try {
-        const config = {
-            headers: {
-                'Accept':'application/json'
-            }
-        }
-
-        const res = await axios.get(`/api/category/${id}`, config);
-
+    if(category) {
         dispatch({
             type: GET_SINGLE_CATEGORY,
-            payload: res.data
+            payload: category
         })
+    } else {
+        try {
+            const config = {
+                headers: {
+                    'Accept':'application/json'
+                }
+            }
 
-    } catch (err) {
-        const errors = err.response.data.errors;
+            const res = await axios.get(`/api/category/${id}`, config);
 
-        if (errors) {
-            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+            dispatch({
+                type: GET_SINGLE_CATEGORY,
+                payload: res.data
+            })
+
+        } catch (err) {
+            const errors = err.response.data.errors;
+
+            if (errors) {
+                errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+            }
+            dispatch({
+                type: CATEGORY_ERROR,
+                payload: { msg: err.response.statusText, status: err.response.status}
+            })
         }
-        dispatch({
-            type: CATEGORY_ERROR,
-            payload: { msg: err.response.statusText, status: err.response.status}
-        })
     }
 }
 
 export const deleteCategory = id => async dispatch => {
-
     dispatch({
         type: CATEGORIES_LOADING_ON
     })
-
     try {
         const config = {
             headers: {
                 'Accept':'application/json'
             }
         }
-
         const res = await axios.delete(`/api/category/${id}`, config);
-
         dispatch({
             type: DELETE_CATEGORY,
             payload: res.data
         })
-
+        dispatch(setAlert('categoryDeleted', 'success'))
     } catch (err) {
         const errors = err.response.data.errors;
 

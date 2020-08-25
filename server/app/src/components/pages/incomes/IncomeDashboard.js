@@ -12,13 +12,14 @@ import SectionLayout from '../../layout/SectionLayout'
 import WithTranslation from '../../translation/withTranslationHOC'
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import IncomeDashboardCard from "./IncomeDashboardCard";
+import Divider from "@material-ui/core/Divider";
 
 const IncomeDashboard = ({incomes, getIncomes, loading, strings}) => {
     const matches = useMediaQuery('(min-width:620px)');
     const isWide = useMediaQuery('(min-width:440px)');
 
     useEffect(() => {
-        getIncomes()
+        if(!incomes) getIncomes()
     },[])
     
     if (loading) {
@@ -28,9 +29,11 @@ const IncomeDashboard = ({incomes, getIncomes, loading, strings}) => {
     }
 
     return (incomes
-        ?<SectionLayout title={strings.title} interfaceName={'incomeDashboard'} collapse={true} infoText={strings.infoText} addForm={AddIncomeForm}>{
-            matches?<>
-                    {incomes?incomes.slice(0).reverse().map(income =>
+        ?<SectionLayout title={strings.title} interfaceName={'incomeDashboard'} collapse={true} infoText={strings.infoText} addForm={AddIncomeForm}>
+            <Divider style={{width: '100%', marginBottom: 20}}/>
+            {matches
+                ?<>
+                    {incomes.length?incomes.map(income =>
                             <IncomeDashboardItem
                                 title={income.title}
                                 id={income._id}
@@ -40,22 +43,21 @@ const IncomeDashboard = ({incomes, getIncomes, loading, strings}) => {
                                 color={income.color}
                                 key={income._id}
                                 type='incomes'/>
-                        ):null
+                        ):<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                            <AddIncomeForm/>{strings.infoText}
+                        </div>
                     }
                 </>
             :<>
-                {incomes?incomes.slice(0).reverse().map(income =>
+                {incomes.length?incomes.map(income =>
                     <IncomeDashboardCard
                         isWide={isWide}
-                        title={income.title}
-                        id={income._id}
-                        icon={income.icon}
-                        balance={income.balance}
-                        currency={income.currency}
-                        color={income.color}
+                        income={income}
                         key={income._id}
-                        type='incomes'/>
-                    ):null
+                    />
+                    ):<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                        <AddIncomeForm/>{strings.infoText}
+                    </div>
                 }
             </>
         }</SectionLayout>

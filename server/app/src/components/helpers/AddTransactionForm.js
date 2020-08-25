@@ -3,7 +3,7 @@ import React from 'react'
 import {TextField, Grid, Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import WithTranslation from '../translation/withTranslationHOC'
-import TransactionTypeSwitch from "./TransactionTypeSwitch";
+import TypeSwitch from "./TypeSwitch";
 import SmallSelect from "./SmallSelect";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
@@ -42,7 +42,9 @@ const AddTransactionForm = ({
     title,
     amount,
     loading = true,
-    strings
+    strings,
+    fixedIncome = false,
+    fixedCategory = false
   }) => {
     const classes = useStyles();
     const isSmall = useMediaQuery('(max-width:480px)');
@@ -52,14 +54,20 @@ const AddTransactionForm = ({
                     <Grid item xs={isSmall?12:4} sm={12} md={4}>
                         <Grid container direction={(isSmall||isMedium)?'row':'column'} className={classes.gridRow}>
                             <Grid item>
-                                <TransactionTypeSwitch
+                                <TypeSwitch
                                     onChange={onChange}
                                     name='type'
                                 />
                             </Grid>
                             <Grid item style={{display: 'flex', flexDirection: 'row'}}>
-                                <SmallSelect name='income' label={strings.income} value={income} menuItems={incomes} onChange={onChange}/>
-                                <SmallSelect name='category' label={strings.category} value={category} menuItems={categories} onChange={onChange}/>
+                                {fixedIncome
+                                    ?null
+                                    :<SmallSelect name='income' label={strings.income} value={income} menuItems={incomes} onChange={onChange}/>
+                                }
+                                {fixedCategory
+                                    ?null
+                                    :<SmallSelect name='category' label={strings.category} value={category} menuItems={categories} onChange={onChange}/>
+                                }
                             </Grid>
                         </Grid>
                     </Grid>
@@ -85,12 +93,13 @@ const AddTransactionForm = ({
                             type="number"
                             inputProps={{
                                 max: 999999,
-                                min: 0
+                                min: 0.01,
+                                step: 0.01
                             }}
                             name="amount"
                             value={amount}
                         />
-                        {income
+                        {income && !fixedIncome
                             ?<div>{strings.currentBalance}{' '}{Number(income.balance).toFixed(2)}{' '}{income.currency}</div>
                             :null
                         }
@@ -106,7 +115,6 @@ const AddTransactionForm = ({
                 >
                     {strings.buttonText}
                 </Button>
-
             </form>
 }
 

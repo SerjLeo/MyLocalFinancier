@@ -11,12 +11,14 @@ module.exports.createTransaction = async (req,res) => {
         type,
         amount,
         category,
+        currency,
         income
     } = req.body;
 
     const newTransaction = {
         user: req.user.id,
         title,
+        currency,
         type,
         amount,
         category,
@@ -26,7 +28,8 @@ module.exports.createTransaction = async (req,res) => {
     try {
         const transaction = new Transaction(newTransaction);
         await transaction.save();
-        res.json(transaction);
+        const populatedTransaction = await Transaction.findById(transaction._id).populate('income').populate('category')
+        res.json(populatedTransaction);
     } catch (err) {
         res.status(400).send("Server error");
     }
@@ -39,10 +42,11 @@ module.exports.getTransactionsByIncome = async (req,res) => {
     let skip = req.query.skip ? parseInt(req.query.skip): 0;
     try {
         const transactions = await Transaction.find({$and: [{"user": userID}, {"income": incomeID}]})
-            .sort({$natural:-1})
+            .sort({ date: -1 })
             .skip(skip)
             .limit(limit)
             .populate('category')
+            .populate('income')
         res.json(transactions);
     } catch (err) {
         res.status(400).send("Server error");
@@ -56,9 +60,10 @@ module.exports.getTransactionsByCategory = async (req,res) => {
     let skip = req.query.skip ? parseInt(req.query.skip): 0;
     try {
         const transactions = await Transaction.find({$and: [{"user": userID}, {"category": categoryID}]})
-            .sort({$natural:-1})
+            .sort({ date: -1 })
             .skip(skip)
             .limit(limit)
+            .populate('category')
             .populate('income')
         res.json(transactions);
     } catch (err) {
@@ -72,7 +77,7 @@ module.exports.getTransactionsWithParams = async (req, res) => {
     let skip = req.query.skip ? parseInt(req.query.skip): 0;
     try {
         const transactions = await Transaction.find({"user": userID})
-            .sort({$natural:-1})
+            .sort({ date: -1 })
             .skip(skip)
             .limit(limit)
             .populate('category')

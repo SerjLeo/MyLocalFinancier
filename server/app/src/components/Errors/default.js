@@ -1,7 +1,10 @@
 import React from 'react';
+import PageLayout from "../layout/PageLayout";
 
 const DefaultError = () => {
-    return <div className="error">Error</div>
+    return <PageLayout>
+            <div className="error">Error! Reload browser page!</div>
+        </PageLayout>
 }
 
 export default DefaultError;

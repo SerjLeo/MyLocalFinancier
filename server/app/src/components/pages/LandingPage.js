@@ -10,6 +10,7 @@ import PageLayout from '../layout/PageLayout'
 
 import {makeStyles} from "@material-ui/core/styles";
 
+import bg from '../../public/images/main-page.png'
 const useStyles = makeStyles(theme => ({
     gridItem: {
         height: '100%',
@@ -17,19 +18,49 @@ const useStyles = makeStyles(theme => ({
         alignItems: "center",
         textAlign: "center"
     },
+    container: {
+        display: "flex",
+        justifyContent: 'center',
+        alignItems: 'center',
+        [theme.breakpoints.down('md')]: {
+            flexDirection: 'column',
+            justifyContent: "flex-end"
+        },
+    },
     headTitle: {
       fontSize: '24px',
-      margin: 40
+      margin: 20
+    },
+    image: {
+        width: 800,
+        height: 600,
+      background: `url(${bg}) no-repeat center center/100% auto`,
+        [theme.breakpoints.down('md')]: {
+            height: 400,
+            width: 600
+        },
+        [theme.breakpoints.down('sm')]: {
+            height: 300,
+            width: 480
+        }
     },
     subTitle: {
       fontSize: '20px',
       marginBottom: 30
     },
     sidePanel: {
-        height: '100%',
-        [theme.breakpoints.down('xs')]: {
-            display: 'none'
-        }
+        width: '100%',
+        height: 600,
+        [theme.breakpoints.down('md')]: {
+            height: 400
+        },
+        [theme.breakpoints.down('sm')]: {
+            height: 300
+        },
+        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
     }
 }))
 
@@ -41,14 +72,14 @@ const LandingPage = ({isAuthenticated, strings}) => {
     }
 
     return (
-        <PageLayout wrap={false} bgc='rgba(0,0,0,0.6)'>
-            <Grid container>
-                <Grid item md={7} className={classes.gridItem}>
+        <PageLayout justify='center' wrap={false} bgc='rgba(0,0,0,0.6)'>
+            <Grid container className={classes.container}>
+                <Grid item lg={8} className={classes.sidePanel}>
+                    <div className={classes.image}> </div>
+                </Grid>
+                <Grid item lg={4} className={classes.gridItem}>
                     <Typography variant="h1" className={classes.headTitle}>
                         {strings.welcomeText}
-                    </Typography>
-                    <Typography variant="h3" className={classes.subTitle}>
-                        Some subtext
                     </Typography>
                     <div>
                         <CustomLink to='/login' style={{width: '100%'}}>
@@ -59,9 +90,7 @@ const LandingPage = ({isAuthenticated, strings}) => {
                         </CustomLink>
                     </div>
                 </Grid>
-                <Grid item md={5} className={classes.sidePanel}>
-                    item_2
-                </Grid>
+
             </Grid>
         </PageLayout>
     )

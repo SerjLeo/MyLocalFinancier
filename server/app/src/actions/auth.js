@@ -14,7 +14,6 @@ import {
     CLEAR_FINANCE
 } from './types';
 import {setAlert} from './alert';
-import {createDefaultCategories} from './category';
 import setAuthToken from '../utils/setAuthToken';
 
 export const loadUser = () => async dispatch => {
@@ -55,7 +54,7 @@ export const register = ({name, email, password}) => async dispatch => {
             dispatch({
                 type: REGISTER_SUCCESS
             })
-            dispatch(setAlert(res.data.message, 'success', 10000));
+            dispatch(setAlert('confirmationSend', 'success', 10000));
         }
         
     } catch (err) {
@@ -107,8 +106,7 @@ export const confirmEmail = id => async dispatch => {
                 type: CONFIRMATION_SUCCESS
             });
             setAuthToken(res.data.token);
-            dispatch(createDefaultCategories())
-            dispatch(setAlert('Email succesfully confirmed!', 'success'))
+            dispatch(setAlert('emailConfirmed', 'success'))
         }
     } catch (err) {
         const errors = err.response.data.errors;

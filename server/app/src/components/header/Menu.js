@@ -11,6 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 
 import {CustomLink} from '../utils/CustomLink'
 import menuLinks from './menuLinks'
+import WithTranslation from "../translation/withTranslationHOC";
 
 
 const useStyles = makeStyles({
@@ -25,7 +26,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Menu() {
+function Menu({strings}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -37,7 +38,7 @@ export default function Menu() {
     setOpen(!open);
   };
 
-  const {menu, analytics, finance} = menuLinks;
+  const {menu, analytics} = menuLinks;
 
   const sideList = () => (
     <div
@@ -47,7 +48,7 @@ export default function Menu() {
       onKeyDown={e => toggleDrawer(e)}
     >
       <Typography variant='h6' className={classes.title}>
-        Menu
+        {strings.title}
       </Typography>
       <Divider />
       <List>
@@ -55,13 +56,13 @@ export default function Menu() {
           <CustomLink to={item.link} key={item.text}>
             <ListItem button>
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
+                <ListItemText primary={strings[item.text]} />
             </ListItem>
           </CustomLink>
         ))}
       </List>
       <Typography variant='h6' className={classes.title}>
-        Analytics
+        {strings.analytics}
       </Typography>
       <Divider />
       <List>
@@ -69,7 +70,7 @@ export default function Menu() {
           <CustomLink to={item.link} key={item.text}>
             <ListItem button>
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
+                <ListItemText primary={strings[item.text]} />
             </ListItem>
           </CustomLink>
         ))}
@@ -89,3 +90,5 @@ export default function Menu() {
     </div>
   );
 }
+
+export default WithTranslation(Menu)

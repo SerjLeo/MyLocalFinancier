@@ -22,7 +22,6 @@ export const getRate = () => dispatch => {
 }
 
 //Set language
-
 export const setLanguage = language => dispatch => {
     dispatch({
         type: SET_LANGUAGE,

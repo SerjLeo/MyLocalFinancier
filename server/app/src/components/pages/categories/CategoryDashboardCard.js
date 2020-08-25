@@ -45,7 +45,7 @@ const CategoryDashboardCard = ({title, icon, color, id, isWide}) => {
         }
     }
     if(redirect){
-        return <Redirect to={`/categories/${id}`}/>
+        return <Redirect push to={`/categories/${id}`}/>
     }
     return (
         <Grid item xs={isWide?6:12}>

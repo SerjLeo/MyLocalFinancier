@@ -53,11 +53,13 @@ const Form = ({
     
     const {sm,xs,md,lg} = breakpoints
     
-    strings = Object.entries(strings).filter(item => item[0] === type).reduce((flattenArray, element) => {
-        return Array.isArray(element)
-        ? [...flattenArray, ...element]
-        : [...flattenArray, element]
-    },[])[1]
+    strings = Object.entries(strings)
+        .filter(item => item[0] === type)
+        .reduce((flattenArray, element) => {
+            return Array.isArray(element)
+            ? [...flattenArray, ...element]
+            : [...flattenArray, element]
+        },[])[1]
 
     return (fields?(
         <Paper className={classes.paper} style={{backgroundColor: color}} elevation={elevation}>
@@ -129,6 +131,11 @@ const Form = ({
                                                 margin="normal"
                                                 label={label}
                                                 type={field.inputType}
+                                                inputProps={{
+                                                    min: 0,
+                                                    max: 999999,
+                                                    step: 0.01
+                                                }}
                                                 helperText={field.helperText}
                                                 name={field.name}
                                                 value={field.value}

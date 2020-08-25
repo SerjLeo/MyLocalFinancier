@@ -1,181 +1,120 @@
 import {months, yearLabels} from './defaultData'
+import moment from "moment";
 
 export default class AnalyticService {
 
-    sortTransactionsByCategories = transactions => {
-        const categories = transactions.reduce((transactions, transaction) => ({
-            ...transactions,
-            [transaction.category.title]:[]
-        }),{})
-
-        return Object.entries(
-            transactions.reduce((transactions, transaction) => {
-            const {title} = transaction.category;
-            
-            transactions[title] = [...transactions[title], transaction];
-    
-            return transactions;
-        }, categories));
-    }
-
-    extractDate = date => {
-        let rexp = new RegExp("[-t:/.]", "gim")
-        return date.split(rexp)
-        
-    }
-
-    getMonthsArray = (startMonth=1, endMonth=12) => {
-        let monthsData = {}
-        for(let i = startMonth; i <= endMonth; i++) {
-            monthsData = {
-                ...monthsData,
-                [this.getMonthLabel(i)]:[]
-            }
+    extractTimePeriodBorders(type = 'month', month = 1, year = 2020) {
+        switch (type) {
+            case 'month':
+                return {
+                    startDate: moment(`${month+1}-01-${year}`,'MM-DD-YYYY').startOf('month').format(),
+                    endDate: moment(`${month+1}-1-${year}`,'MM-DD-YYYY').endOf('month').format()
+                }
+            case 'year':
+                return {
+                    startDate: moment(`1-1-${year}`).startOf('year').format(),
+                    endDate: moment(`1-1-${year}`).endOf('year').format()
+                }
+            case 'all':
+                return {
+                    startDate: moment(`1-1-2000`).startOf('year').format(),
+                    endDate: moment().endOf('year').format()
+                }
+            default:
+                return
         }
-        return monthsData
     }
 
-    getMonthLabel = number => months[number]
+    calcTotalAmount(transactions = []) {
+        return transactions.reduce((total, transaction) => total += transaction.amount, 0)
+    }
 
-    getYearsArray = (startDate, endDate) => {
-        let years = []
-        for(let i = startDate[0]; i <= endDate[0]; i++) {
-            years.push(i)
+    findLabel(id, attributes = []) {
+        return attributes.find(el => el._id === id)['title']
+    }
+
+    findColor(id, attributes = []) {
+        return attributes.find(el => el._id === id)['color']
+    }
+
+    filterByType(transactions = [], type = true) {
+        return transactions.filter(t => t.type === type)
+    }
+    filterByAttribute(transactions, attribute, attributeId) {
+        if(attributeId && transactions.length) {
+            return transactions.filter(t =>t[attribute] && (t[attribute]._id === attributeId))
         }
-        let yearsData = {}
-        for(let i = startDate[0]; i <= endDate[0]; i++) {
-            if(startDate[0] === endDate[0]) {
-                yearsData = {
-                    ...yearsData,
-                    [i]:this.getMonthsArray(startDate[1],endDate[1])
-                }
-                break
-            } else if (i === startDate[0]) {
-                yearsData = {
-                    ...yearsData,
-                    [i]:this.getMonthsArray(startDate[1])
-                }
-            } else if (i === endDate[0]) {
-                yearsData = {
-                    ...yearsData,
-                    [i]:this.getMonthsArray(1, endDate[1])
-                }
-            } else {
-                yearsData = {
-                    ...yearsData,
-                    [i]:this.getMonthsArray()
-                }
-            }
+        return transactions
+    }
+
+    filterByTime(transactions = [], endDate = {}, startDate = 0 ) {
+        const endDate_timestamp = moment(endDate).unix()
+        const startDate_timestamp = startDate?moment(startDate).unix():0
+        return transactions.filter(t => (moment(t.date).unix() >= startDate_timestamp && moment(t.date).unix() <= endDate_timestamp))
+    }
+
+    filterByCurrency(transactions = [], currency = 'USD') {
+        return transactions.filter(t => t.currency === currency)
+    }
+
+    //@Return Array [ [ attribute_id, Array<transactions> ] ]
+    //@Should be invoked after all filter functions
+    sortByAttribute(transactions = [], sortBy = 'income') {
+        if(transactions.length && transactions[0][sortBy]) {
+            const attributes = transactions.reduce((attributes, transaction) => ({
+                ...attributes,
+                [transaction[sortBy]._id]:[]
+            }),{})
+
+            return Object.entries(
+                transactions.reduce((sorted, transaction) => {
+                    const id = transaction[sortBy]._id;
+                    sorted[id] = [...sorted[id], transaction];
+                    return sorted;
+                }, attributes)
+            )
         }
-        return yearsData
+        return []
     }
 
-    sortByMonths = (dataArray, startDate = [2019, 1], endDate = [2020, 12]) => {
-        dataArray = dataArray.filter(el => el instanceof Object)
-        dataArray = dataArray.filter(el => !!el.date)
-        dataArray = dataArray.reduce((data, item) => {
-            let date = this.extractDate(item.date)
-            let month = parseInt(date[1])
-            let monthLabel = this.getMonthLabel(month)
-            let year = parseInt(date[0])
-            if (year >= startDate[0] && year <= endDate[0]) {
-                if (year === startDate[0]) {
-                    if (month >= startDate[1]) {
-                        if(startDate[0] === endDate[0]) {
-                            if (month <= endDate[1])
-                                data[year][monthLabel] = [...data[year][monthLabel], item]
-                        } else
-                            data[year][monthLabel] = [...data[year][monthLabel], item]
-                    }
-                } else if (year === endDate[0]) {
-                    if (month < endDate[1]) {
-                        data[year][monthLabel] = [...data[year][monthLabel], item]
-                    }
-                } else {
-                    data[year][monthLabel] = [...data[year][monthLabel], item]
-                }
+    //@Return Array [ [ type 0|1, Array<transactions> ] ]
+    //@Should be invoked after all filter functions
+    sortByType(transactions = []) {
+        if(transactions.length && transactions[0].hasOwnProperty('type')) {
+            const types = {
+                0: [],
+                1: []
             }
-            return data
-        }, this.getYearsArray(startDate, endDate))
-
-        for (let year in dataArray) {
-            dataArray[year] = Object.entries(dataArray[year])
+            return Object.entries(
+                transactions.reduce((sorted, transaction) => {
+                    return transaction.type
+                        ?{
+                            ...sorted,
+                            1: [...sorted['1'], transaction]
+                        }
+                        :{
+                            ...sorted,
+                            0: [...sorted['0'], transaction]
+                        }
+                }, types)
+            )
         }
-
-        return Object.entries(dataArray)
+        return []
     }
 
-    calcMonthTotal = (transactionsArray) => transactionsArray.reduce((monthTotal, transaction) => {
-        return monthTotal += transaction.exchangeRate * transaction.amount
-    },0)
-
-    toLineGraphData = (sortedTransactions) => {
-        let labels = [];
-        let values = [];
-
-        sortedTransactions.forEach(year => {
-            let yearLabel = year[0].substr(2,2)
-            year[1].forEach(month => {
-                let fullLabel = month[0].substr(0,3) + ' ' + yearLabel
-                labels.push(fullLabel)
-                let monthTotal = this.calcMonthTotal(month[1])
-                values.push(monthTotal)
-            })
-        });
-
-        return [labels,values]
-    }
-
-    sortIncomeDepositsByTime = deposits => {
-        
-        const byMonths = yearLabels.reduce((months, month) => {
-            return {
-                ...months,
-                [month]:[]
-            }
-        },{})
-
-        let sortedDeposits = Object.entries(
-            deposits.reduce((deposits, deposit) => {
-            let rexp = new RegExp("[-t:/.]", "gim")
-            let dateArr = deposit.date.split(rexp)
-            let date = months[parseInt(dateArr[1])]
-            deposits[date] = [...deposits[date], deposit];
-            return deposits;
-        }, byMonths));
-
-        let pending = [];
-        let notNull = false;
-
-        return sortedDeposits.reduce((reducedArr, element) => {
-            if(element[1].length !== 0 ) {
-                notNull = true
-                reducedArr = [
-                    ...reducedArr,
-                    ...pending,
-                    element
-                ]
-                pending = []
-            } else {
-                if(notNull) {
-                    pending.push(element)
-                }
-            }
-            return reducedArr
-        }, [])
-    }
-    //returns {labels:['Month",...],values:[Number, ...]}
-    getDepositData = sortedDeposits => {
-        let labels = [];
-        let values = [];
-        return sortedDeposits.reduce((data, element) => {
-            labels.push(element[0]);
-            const value = element[1].reduce((sum, deposit) => (sum += deposit.amount * deposit.exchangeRate.$numberDecimal),0);
-            values.push(parseFloat(value.toFixed(2)));
-            return data = {
-                labels,
-                values
-            }
-        },[])
+    //@Return Object {data: Array<Number>, labels: Array<String>, colors: Array<String>}
+    //@Accept sorted transactions in result of 'sortByAttribute', 'SortByType'
+    getGraphData(sortedTransactions, attributes) {
+        const graphData = {
+            data: [],
+            labels: [],
+            colors: []
+        }
+        sortedTransactions.forEach(group => {
+            graphData.labels.push(this.findLabel(group[0], attributes))
+            graphData.colors.push(this.findColor(group[0], attributes))
+            graphData.data.push(this.calcTotalAmount(group[1]))
+        })
+        return graphData
     }
 }

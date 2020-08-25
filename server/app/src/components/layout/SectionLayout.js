@@ -24,7 +24,6 @@ const useStyles = makeStyles(theme => ({
             padding: 10
         },
         backgroundColor: 'rgba(44, 48, 44,0.95)',
-        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignContent: 'center',
@@ -47,15 +46,26 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const SectionLayout = ({children, interfaceName, title, infoText, collapse = false, addForm, noPadding = false}) => {
+const SectionLayout = ({
+   children,
+   toolbar,
+   toolbarProps,
+   interfaceName,
+   title,
+   infoText,
+   collapse = false,
+   addForm,
+   noPadding = false
+}) => {
     const classes = useStyles();
     const interfaceStateService = new InterfaceStateService()
     const [expanded, setExpanded] = React.useState(false);
+
     React.useEffect(() => {
         if(interfaceName) {
             setExpanded(interfaceStateService.getProperty(interfaceName))
         }
-    })
+    }, [interfaceName, interfaceStateService])
     const handleExpandClick = () => {
         if(interfaceName) {
             interfaceStateService.setProperty(interfaceName, !expanded)
@@ -63,12 +73,14 @@ const SectionLayout = ({children, interfaceName, title, infoText, collapse = fal
         setExpanded(!expanded);
     };
     const AddForm = addForm
+    const Toolbar = toolbar
     return (
         <Paper className={classes.section}>
             <div className={classes.header}>
                 {title?<Typography variant="h5" style={{padding: '0 10px'}} className={classes.title}>{title}</Typography>:null}
                 <div className={classes.toolbar}>
                     {addForm?<AddForm/>:null}
+                    {toolbar?<Toolbar {...toolbarProps}/>:null}
                     {collapse?
                         <IconButton
                             onClick={handleExpandClick}

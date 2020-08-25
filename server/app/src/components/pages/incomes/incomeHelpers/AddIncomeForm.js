@@ -97,42 +97,42 @@ const AddIncomeForm = ({addIncome}) => {
                     setFormData({
                         ...formData,
                         [e.target.name]: e.target.value,
-                        color: '#2f398f',
+                        color: '#c4c93d',
                         icon: 'credit-card'
                     })
                 } else if (e.target.value === 'Cash') {
                     setFormData({
                         ...formData,
                         [e.target.name]: e.target.value,
-                        color: '#208559',
+                        color: '#6fa044',
                         icon: 'money-bill'
                     })
                 } else if (e.target.value === 'Web Wallet') {
                     setFormData({
                         ...formData,
                         [e.target.name]: e.target.value,
-                        color: '#20c2e3',
+                        color: '#496cbc',
                         icon: 'wallet'
                     })
                 } else if (e.target.value === 'Bank Account') {
                     setFormData({
                         ...formData,
                         [e.target.name]: e.target.value,
-                        color: '#621bb3',
+                        color: '#54d999',
                         icon: 'bank-account'
                     })
                 } else if (e.target.value === 'Crypto') {
                     setFormData({
                         ...formData,
                         [e.target.name]: e.target.value,
-                        color: '#2f398f',
+                        color: '#ddb256',
                         icon: 'bitcoin'
                     })
                 } else if (e.target.value === 'Other') {
                     setFormData({
                         ...formData,
                         [e.target.name]: e.target.value,
-                        color: '#8c7066',
+                        color: '#2ea4bc',
                         icon: 'coins'
                     })
                 };

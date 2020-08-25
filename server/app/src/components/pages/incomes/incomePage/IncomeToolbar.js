@@ -1,26 +1,41 @@
 import React, {useState} from 'react'
 import {IconButton} from '@material-ui/core'
-import DeleteIncomeDialog from '../incomeHelpers/DeleteDialog'
+import DeleteDialog from '../../../helpers/DeleteDialog'
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import {connect} from "react-redux";
+import {deleteIncome, deleteRelatedTransactions, setAlert} from "../../../../actions";
 
-const IncomeToolbar = ({id}) => {
+const IncomeToolbar = ({id, deleteIncome, deleteRelatedTransactions, setAlert, redirect}) => {
+
     const [openDialog, setOpenDialog] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const openDeleteDialog = () => setOpenDialog(true)
     const handleDialogClose = () => setOpenDialog(false)
-    
+
+    const handleDeleteIncome = async (deleteRelative = false) => {
+        setLoading(true)
+        try {
+            if(deleteRelative) {
+                await deleteRelatedTransactions(id)
+            }
+            await deleteIncome(id)
+            redirect()
+        } catch (error) {
+            setAlert(error.msg, 'error')
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
         <div>
-            <IconButton aria-label="delete" >
-                <EditIcon />
-            </IconButton>
             <IconButton aria-label="edit" onClick={() => openDeleteDialog()}>
                 <DeleteIcon />
             </IconButton>
-            <DeleteIncomeDialog id={id} open={openDialog} onClose={handleDialogClose}/>
+            <DeleteDialog id={id} type="income" loading={loading} open={openDialog} onClose={handleDialogClose} onDelete={handleDeleteIncome}/>
         </div>
     )
 }
 
-export default IncomeToolbar
+export default connect(null, {deleteIncome, deleteRelatedTransactions, setAlert})(IncomeToolbar)

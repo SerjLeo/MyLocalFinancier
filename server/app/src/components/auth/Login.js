@@ -49,7 +49,7 @@ const Login = ({login, isAuthenticated}) => {
         return <Redirect to='/dashboard'/>
     }
 
-    return <PageLayout wrap={false} containerSize='sm' bgc='rgba(0,0,0,0.6)'>
+    return <PageLayout wrap={false} containerSize='sm' bgc='rgba(0,0,0,0.6)' justify='center'>
               <Form
                 onSubmit={onSubmit}
                 onChange={onChange}

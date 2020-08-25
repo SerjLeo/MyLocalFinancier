@@ -75,6 +75,22 @@ const AddCategory = ({addCategory}) => {
                 {
                     value: 'pencil',
                     _id: 'i_12'
+                },
+                {
+                    value: 'shirt',
+                    _id: 'i_13'
+                },
+                {
+                    value: 'car',
+                    _id: 'i_14'
+                },
+                {
+                    value: 'duck',
+                    _id: 'i_15'
+                },
+                {
+                    value: 'ufo',
+                    _id: 'i_16'
                 }
             ]
         },
@@ -104,7 +120,7 @@ const AddCategory = ({addCategory}) => {
                     _id: 4
                 },
                 {
-                    value: '#ccec76',
+                    value: '#d0d852',
                     _id: 5
                 },
                 {

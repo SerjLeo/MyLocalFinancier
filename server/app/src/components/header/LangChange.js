@@ -2,11 +2,10 @@ import React, {useState} from 'react'
 
 import {Select, FormControl, MenuItem, makeStyles } from '@material-ui/core';
 import {FlagUK, FlagRUS} from '../layout/Icons';
-// import withTranslation from '../../translation/withTranslationHOC'
 
 const styles = makeStyles(theme => ({
     icon: {
-        dispaly: 'inline-block',
+        display: 'inline-block',
         marginLeft: 3,
         [theme.breakpoints.up('sm')] : {
             height: 30,
@@ -46,6 +45,7 @@ const LangChange = ({onLangChange, selectedLanguage}) => {
             <Select
             value={language}
             autoWidth={true}
+            disableUnderline
             onChange={handleChange}
             >
                 <MenuItem value='eng'>

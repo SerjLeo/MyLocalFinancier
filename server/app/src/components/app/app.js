@@ -8,14 +8,15 @@ import Footer from '../footer/Footer';
 import {
     LandingPage,
     Dashboard,
-    Settings,
     AllTransactions,
     IncomeCatalog,
     Analytics,
-    CategoriesAnalytic,
+    CategoriesAnalyticsPage,
     IncomePage,
     CategoryPage,
-    CategoriesToolbar
+    CategoriesCatalog,
+    TypeAnalyticsPage,
+    IncomesAnalyticsPage
 } from '../pages';
 import {Login, Register, Confirm} from '../auth';
 import {Alert} from '../Errors';
@@ -27,7 +28,8 @@ import PrivateRoute from '../routes/PrivateRoute'
 import {connect} from 'react-redux'
 import {CssBaseline, makeStyles} from '@material-ui/core';
 
-import Background from './background.jpg';
+import Background from '../../public/images/background.jpg';
+import Page404 from "../Errors/Page404";
 
 if (localStorage.token) {
     setAuthToken(localStorage.token)
@@ -44,7 +46,7 @@ const App = ({loadUser}) => {
 
     useEffect(() => {
         loadUser();
-    },[]);
+    },[loadUser]);
 
     const styles = useStyles();
     
@@ -54,20 +56,22 @@ const App = ({loadUser}) => {
             <div className={styles.appContainer}>
                 <Header/>
                 <SimpleBar style={{maxHeight: '100vh'}}>
-                    <Route exact path='/' component={LandingPage}/>
-                    <Route path='/confirm/:userID'  component={Confirm}/>
                     <Switch>
+                        <Route exact path='/' component={LandingPage}/>
+                        <Route exact path='/confirm/:userID'  component={Confirm}/>
                         <Route exact path='/register' component={Register}/>
                         <Route exact path='/login' component={Login}/>
                         <PrivateRoute exact path='/dashboard' component={Dashboard}/>
-                        <PrivateRoute exact path='/settings' component={Settings}/>
                         <PrivateRoute exact path='/transactions' component={AllTransactions}/>
                         <PrivateRoute exact path='/incomes' component={IncomeCatalog}/>
-                        <PrivateRoute exact path='/categories' component={CategoriesToolbar}/>
+                        <PrivateRoute exact path='/categories' component={CategoriesCatalog}/>
                         <PrivateRoute exact path='/incomes/:incomeID' component={IncomePage}/>
                         <PrivateRoute exact path='/categories/:categoryID' component={CategoryPage}/>
                         <PrivateRoute exact path='/analytics' component={Analytics}/>
-                        <PrivateRoute exact path='/analytics/categories' component={CategoriesAnalytic}/>
+                        <PrivateRoute exact path='/analytics/categories' component={CategoriesAnalyticsPage}/>
+                        <PrivateRoute exact path='/analytics/incomes' component={IncomesAnalyticsPage}/>
+                        <PrivateRoute exact path='/analytics/types' component={TypeAnalyticsPage}/>
+                        <Route component={Page404} />
                     </Switch>
                     <Footer/>
                     <Alert/>

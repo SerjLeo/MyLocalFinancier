@@ -7,10 +7,9 @@ Chart.defaults.global.defaultFontFamily = "'PT Sans', sans-serif"
 export default class LineGraph extends React.PureComponent {
     constructor (props) {
         super(props)
+        this.chartRef = React.createRef();
         this.chart = {}
     }
-
-    chartRef = React.createRef();
 
     componentDidMount() {
         const myChartRef = this.chartRef.current.getContext("2d");

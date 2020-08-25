@@ -1,6 +1,3 @@
-import {Typography} from "@material-ui/core";
-import React from "react";
-
 export default {
     Form: {
         login: {
@@ -49,10 +46,10 @@ export default {
     AddTransactionForm: {
         titleText: "Добавить транзакцию",
         buttonText: "Добавить",
-        income: 'Счет',
+        income: 'Счет *',
         title: 'Название',
         amount: 'Сумма',
-        category: 'Категория',
+        category: 'Категория *',
         currency: 'Валюта',
         currentBalance: 'Средств на счете:'
     },
@@ -65,17 +62,29 @@ export default {
         titleText: 'Адрес электронной почты успешно подтвержден!',
         buttonText: 'войти'
     },
-    IncomeTabs:{
-        depositTab: 'Пополнить счет',
-        expenseTab: 'Добавить расход'
-    },
     IncomeDashboard: {
         infoText: 'Добавляйте счета для управления средствами',
         title: 'Счета'
     },
+    IncomeCatalog: {
+        title: 'Счета',
+        analytics: 'Аналитика'
+    },
+    IncomePage: {
+        title: 'Подробности счета',
+        analytics: 'Аналитика'
+    },
+    CategoryPage: {
+        title: 'Подробности категории',
+        analytics: 'Аналитика'
+    },
     CategoriesDashboard: {
         infoText: 'Добавляйте категории для сортировки расходов',
         title: 'Категории'
+    },
+    CategoriesCatalog: {
+        title: 'Категории',
+        analytics: 'Аналитика'
     },
     LastTransactions: {
         title: 'Последние транзакции',
@@ -90,15 +99,95 @@ export default {
     Alert: {
         negativeBalance: 'На этом счете недостаточно средств',
         registerSuccess: 'Регистрация прошла успешно!',
+        confirmationSend: 'Письмо с подтверждением отправленно на указанный почтовый адрес',
         transactionAdded: 'Транзакция добавлена',
-        needAuth: 'Необходима авторизация'
+        transactionDeleted: 'Транзакция удалена',
+        needAuth: 'Необходима авторизация',
+        incomeDeleted: 'Счет удален',
+        categoryDeleted: 'Категория удалена',
+        incomeAdded: 'Счет добавлен',
+        categoryAdded: 'Категория добавлена',
+        emailConfirmed: 'Адрес электронной почты подтвержден!'
     },
     RecentTransactions: {
         title: 'Последние транзакции',
-        toAll: 'Все транзакции'
+        toAll: 'Все транзакции',
+        empty: 'Пока транзакций нет...'
     },
-    AllTransactions: {
+    TransactionsList: {
         title: 'История транзакций',
-        loadMore: 'Загрузить больше'
+        loadMore: 'Загрузить больше',
+        empty: 'Пока транзакций нет...'
+    },
+    Footer: {
+        rights: 'Все права защищены'
+    },
+    Searchbar: {
+        all: 'Все...',
+        incomes: 'Счета',
+        categories: 'Категории'
+    },
+    AnalyticsFilters: {
+        currency: 'Валюта',
+        type: 'Тип',
+        from: 'От',
+        to: 'До',
+        timePeriod: 'Временной период',
+        month: 'Месяц',
+        all: 'Все...',
+        income: 'Счет',
+        category: 'Категория',
+        year: 'Год',
+        allTime: 'Все время',
+        customPeriod: 'Настроить',
+        months: {
+            'Jan': 'Январь',
+            'Feb': 'Февраль',
+            'Mar': 'Март',
+            'Apr': 'Апрель',
+            'May': 'Май',
+            'Jun': 'Июнь',
+            'Jul': 'Июль',
+            'Aug': 'Август',
+            'Sep': 'Сентябрь',
+            'Oct': 'Октябрь',
+            'Nov': 'Ноябрь',
+            'Dec': 'Декабрь'
+        }
+    },
+    Analytics: {
+        incomes: 'Счета',
+        categories: 'Категории'
+    },
+    Menu: {
+        title: 'Меню',
+        analytics: 'Аналитика',
+        dashboard: 'На главную',
+        transactions: 'Транзакции',
+        incomes: 'Счета',
+        categories: 'Категории',
+        settings: 'Настройки',
+        allAnalytics: 'Аналитика',
+        byIncomes: 'По счетам',
+        byCategories: 'По категориям',
+        byTypes: 'Доходы/Расходы'
+    },
+    Header: {
+        register: 'Регистрация',
+        login: 'Вход',
+        logout: 'Выход',
+        settings: 'Настройки'
+    },
+    EmptyData: {
+        empty: 'Нет данных'
+    },
+    DeleteDialog: {
+        delete: 'Удалить',
+        cancel: 'Отмена',
+        incomeTitle: 'Удалить счет',
+        categoryTitle: 'Удалить категорию',
+        deleteRelative: 'Удалить связанные транзакции',
+        deleteIncomeDescription: 'Неудаленные транзакции будут не доступны в некторых видах аналитики, однако, в общем, сделают ее более точной',
+        deleteCategoryDescription: 'Эта категория будет также исключена из аналитики. Не удаляйте ее, если к ней относятся много транзакций!'
     }
 };

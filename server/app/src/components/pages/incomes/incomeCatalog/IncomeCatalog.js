@@ -1,20 +1,45 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import IncomeCard from './IncomeCard'
 import {Grid} from '@material-ui/core'
 import Spinner from '../../../layout/Spinner'
-import {getIncomes} from '../../../../actions'
+import {getCategories, getIncomes, getTransactions} from '../../../../actions'
 import PageLayout from '../../../layout/PageLayout'
 
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import SectionLayout from "../../../layout/SectionLayout";
+import AddIncomeForm from "../incomeHelpers/AddIncomeForm";
+import IncomeDashboardCard from "../IncomeDashboardCard";
+import WithTranslation from "../../../translation/withTranslationHOC";
+import {compose} from "redux";
+import GlobalAnalytic from "../../analytics/GlobalAnalytics";
 
-const IncomeCatalog = ({incomes, loading, getIncomes}) => {
+const IncomeCatalog = ({
+        strings,
+        incomes,
+        incomeLoading,
+        categories,
+        categoryLoading,
+        transactions,
+        transactionLoading,
+        getCategories,
+        getIncomes,
+        getTransactions,
+    }) => {
+    const isWide = useMediaQuery('(min-width:440px) and (max-width:620px), (min-width:960px)')
+    useEffect(() => {
+        if (!categories) {
+            getCategories()
+        }
+        if (!transactions) {
+            getTransactions()
+        }
+        if(!incomes) {
+            getIncomes()
+        }
+    }, [])
 
-    if(incomes.length === 0) {
-        getIncomes()
-    }
-
-    if (loading) {
+    if (incomeLoading || categoryLoading || transactionLoading) {
         return (
             <PageLayout>
                 <Spinner/>
@@ -22,26 +47,34 @@ const IncomeCatalog = ({incomes, loading, getIncomes}) => {
         )
     }
     return (
-        <PageLayout>
-            <Grid container alignContent='center'>
-                <Grid item md={6} sm={12}>
-                    <Grid container>
-                        {incomes.map(income =>(
-                            <IncomeCard
-                                id={income._id}
-                                key={income._id}
-                                type={income.type}
-                                title={income.title}
-                                balance={income.balance}
-                                currency={income.currency}
-                                icon={income.icon}
-                                color={income.color}
-                            />
-                        ))}
+        <PageLayout wrap={false}>
+            <Grid container spacing={2}>
+                {incomes
+                    ?<Grid item xs={12} sm={6}>
+                        <SectionLayout title={strings.title} collapse interfaceName={'incomesCatalog'} addForm={AddIncomeForm}>
+                            <Grid container alignContent='center'>
+                                {incomes.map(income =>(
+                                    <IncomeDashboardCard
+                                        isWide={isWide}
+                                        income={income}
+                                        key={income._id}
+                                    />
+                                ))}
+                            </Grid>
+                        </SectionLayout>
                     </Grid>
-                </Grid>
-                <Grid item md={6} sm={12}>
-                    Fnflytics
+                    :null
+                }
+                <Grid item xs={12} sm={6}>
+                    <SectionLayout title={strings.analytics} collapse interfaceName={'incomesAnalytics'}>
+                        <GlobalAnalytic
+                            type='income'
+                            categories={categories}
+                            transactions={transactions}
+                            incomes={incomes}
+                            isWide={false}
+                        />
+                    </SectionLayout>
                 </Grid>
             </Grid>
         </PageLayout>
@@ -50,7 +83,11 @@ const IncomeCatalog = ({incomes, loading, getIncomes}) => {
 
 const mapStateToProps = state => ({
     incomes: state.income.incomes,
-    loading: state.income.loading
+    incomeLoading: state.income.loading,
+    transactions: state.transaction.transactions,
+    transactionLoading: state.transaction.transactions_loading,
+    categories: state.category.categories,
+    categoryLoading: state.category.loading
 })
 
 IncomeCatalog.propTypes = {
@@ -59,4 +96,7 @@ IncomeCatalog.propTypes = {
     loading: PropTypes.bool
 }
 
-export default connect(mapStateToProps, {getIncomes})(IncomeCatalog)
+export default compose(
+    connect(mapStateToProps, {getCategories, getIncomes, getTransactions}),
+    WithTranslation
+)(IncomeCatalog)

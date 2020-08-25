@@ -1,6 +1,5 @@
 import React from 'react';
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import {makeStyles} from "@material-ui/styles";
@@ -39,7 +38,8 @@ const useStyles = makeStyles({
     select: {
         padding: 24,
         borderRadius: '50%',
-        backgroundColor: props => props?props.color:'rgb(72,71,71)',
+        backgroundColor: props => props?props.color:'rgba(78,72,71,0.8)',
+        border: props => props?'none':'1px solid rgba(255,255,255,0.4)',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -59,7 +59,7 @@ const useStyles = makeStyles({
 const SmallSelect = ({value, name, menuItems, label, onChange}) => {
     const classes = useStyles(value)
     return (
-        <FormControl className={classes.form}>
+        <FormControl required className={classes.form}>
             <div className={classes.label}>{label}</div>
             <Select
                 value={value}
